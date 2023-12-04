@@ -1,7 +1,10 @@
-﻿using Prefabulous.Hai.Runtime;
+﻿using nadena.dev.modular_avatar.core;
+using Prefabulous.Hai.Runtime;
 using Prefabulous.VRC.Runtime;
 using UnityEditor;
 using UnityEditor.Localization.Editor;
+using UnityEngine;
+using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Prefabulous.VRC.Editor
 {
@@ -15,6 +18,29 @@ namespace Prefabulous.VRC.Editor
     [CustomEditor(typeof(PrefabulousImportExpressionParameters))] [CanEditMultipleObjects] public class PrefabulousImportExpressionParametersEditor : PrefabulousEditor { }
     [CustomEditor(typeof(PrefabulousReplaceActionAnimator))] [CanEditMultipleObjects] public class PrefabulousReplaceActionAnimatorEditor : PrefabulousEditor { }
     [CustomEditor(typeof(PrefabulousReplaceLocomotionAnimator))] [CanEditMultipleObjects] public class PrefabulousReplaceLocomotionAnimatorEditor : PrefabulousEditor { }
+
+    [CustomEditor(typeof(PrefabulousHaiLockLocomotionMenuItem))]
+    [CanEditMultipleObjects]
+    public class PrefabulousHaiLockLocomotionEditor : PrefabulousEditor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+            var my = (PrefabulousHaiLockLocomotionMenuItem)target;
+            if (my.transform.GetComponent<ModularAvatarMenuItem>() == null)
+            {
+                my.gameObject.AddComponent<ModularAvatarMenuItem>();
+            }
+            
+            var menu = my.transform.GetComponent<ModularAvatarMenuItem>();
+            menu.hideFlags = HideFlags.NotEditable;
+            menu.Control.icon = my.icon;
+            menu.Control.parameter.name = PrefabulousHaiLockLocomotionMenuItemPlugin.ParameterName;
+            menu.Control.type = VRCExpressionsMenu.Control.ControlType.Toggle;
+            menu.MenuSource = SubmenuSource.Children;
+        }
+    }
     
     
     public class PrefabulousEditor : UnityEditor.Editor

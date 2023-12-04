@@ -3,9 +3,11 @@
     "references": [
         "AnimatorAsCode.V1.NDMFProcessor",
         "AnimatorAsCode.V1.ModularAvatar",
+        "AnimatorAsCode.V1.VRChat",
         "AnimatorAsCode.V1",
         "VRC.SDK3A",
         "nadena.dev.ndmf",
+        "nadena.dev.modular-avatar.core",
         "Prefabulous.Common.Runtime",
         "Prefabulous.VRC.Runtime",
         "Prefabulous.Hai.Runtime"
