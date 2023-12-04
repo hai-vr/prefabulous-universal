@@ -1,0 +1,24 @@
+{
+    "name": "Prefabulous.VRC.Editor",
+    "references": [
+        "AnimatorAsCode.V1.NDMFProcessor",
+        "AnimatorAsCode.V1.ModularAvatar",
+        "AnimatorAsCode.V1",
+        "VRC.SDK3A",
+        "nadena.dev.ndmf",
+        "Prefabulous.Common.Runtime",
+        "Prefabulous.VRC.Runtime",
+        "Prefabulous.Hai.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
