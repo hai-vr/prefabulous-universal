@@ -1,7 +1,6 @@
 ﻿using nadena.dev.ndmf;
 using Prefabulous.VRC.Editor;
 using Prefabulous.VRC.Runtime;
-using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
 [assembly: ExportsPlugin(typeof(PrefabulousBlankExpressionsPlugin))]

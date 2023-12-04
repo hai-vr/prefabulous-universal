@@ -1,24 +1,20 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using nadena.dev.ndmf;
-using nadena.dev.ndmf.fluent;
 using Prefabulous.VRC.Editor;
 using Prefabulous.VRC.Runtime;
-using UnityEditor.Animations;
 using UnityEngine;
-using VRC.SDK3.Avatars.Components;
 
-[assembly: ExportsPlugin(typeof(PrefabulousEditMeshBoundsPlugin))]
+[assembly: ExportsPlugin(typeof(PrefabulousEditAllMeshBoundsPlugin))]
 namespace Prefabulous.VRC.Editor
 {
-    public class PrefabulousEditMeshBoundsPlugin : Plugin<PrefabulousEditMeshBoundsPlugin>
+    public class PrefabulousEditAllMeshBoundsPlugin : Plugin<PrefabulousEditAllMeshBoundsPlugin>
     {
         protected override void Configure()
         {
             InPhase(BuildPhase.Transforming)
                 .Run("Edit Mesh Bounds", context =>
                 {
-                    var prefabulousComps = context.AvatarRootTransform.GetComponentsInChildren<PrefabulousEditMeshBounds>(true);
+                    var prefabulousComps = context.AvatarRootTransform.GetComponentsInChildren<PrefabulousEditAllMeshBounds>(true);
                     if (prefabulousComps.Length == 0) return;
 
                     var my = prefabulousComps.Last();

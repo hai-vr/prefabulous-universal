@@ -6,8 +6,8 @@ using UnityEditor.Localization.Editor;
 namespace Prefabulous.VRC.Editor
 {
     [CustomEditor(typeof(PrefabulousChangeAvatarScale))] [CanEditMultipleObjects] public class PrefabulousChangeAvatarScaleEditor : PrefabulousEditor { }
-    [CustomEditor(typeof(PrefabulousEditMeshAnchorOverride))] [CanEditMultipleObjects] public class PrefabulousEditMeshAnchorOverrideEditor : PrefabulousEditor { }
-    [CustomEditor(typeof(PrefabulousEditMeshBounds))] [CanEditMultipleObjects] public class PrefabulousEditMeshBoundsEditor : PrefabulousEditor { }
+    [CustomEditor(typeof(PrefabulousEditAllMeshAnchorOverride))] [CanEditMultipleObjects] public class PrefabulousEditMeshAnchorOverrideEditor : PrefabulousEditor { }
+    [CustomEditor(typeof(PrefabulousEditAllMeshBounds))] [CanEditMultipleObjects] public class PrefabulousEditMeshBoundsEditor : PrefabulousEditor { }
     [CustomEditor(typeof(PrefabulousHaiFaceTrackingExtensions))] [CanEditMultipleObjects] public class PrefabulousHaiFaceTrackingExtensionsEditor : PrefabulousEditor { }
     [CustomEditor(typeof(PrefabulousBlankExpressions))] [CanEditMultipleObjects] public class PrefabulousBlankExpressionsEditor : PrefabulousEditor { }
     [CustomEditor(typeof(PrefabulousBlankFXAnimator))] [CanEditMultipleObjects] public class PrefabulousBlankFXAnimatorEditor : PrefabulousEditor { }
