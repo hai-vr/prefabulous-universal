@@ -2,7 +2,6 @@
 using Prefabulous.Hai.Runtime;
 using Prefabulous.VRC.Runtime;
 using UnityEditor;
-using UnityEditor.Localization.Editor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
@@ -47,8 +46,8 @@ namespace Prefabulous.VRC.Editor
     {
         public override void OnInspectorGUI()
         {
-            using (new LocalizationGroup(target))
-            {
+            // using (new UnityEditor.LocalizationGroup(target))
+            // {
                 EditorGUI.BeginChangeCheck();
                 serializedObject.UpdateIfRequiredOrScript();
                 var iterator = serializedObject.GetIterator();
@@ -68,7 +67,7 @@ namespace Prefabulous.VRC.Editor
                 }
                 serializedObject.ApplyModifiedProperties();
                 EditorGUI.EndChangeCheck();
-            }
+            // }
         }
     }
 }
