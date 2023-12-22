@@ -181,7 +181,7 @@ namespace Prefabulous.VRC.Editor
                 .ToList();
         }
 
-        public struct PosNorm
+        internal struct PosNorm
         {
             public PosNorm(Vector3 position, Vector3 normal)
             {
@@ -241,10 +241,6 @@ namespace Prefabulous.VRC.Editor
                 }
             }
         }
-    }
-
-    internal class VxDataStruct
-    {
     }
 
     internal struct DeltaMeshBake
