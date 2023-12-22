@@ -7,7 +7,6 @@ using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Prefabulous.VRC.Editor
 {
-    [CustomEditor(typeof(PrefabulousChangeAvatarScale))] [CanEditMultipleObjects] public class PrefabulousChangeAvatarScaleEditor : PrefabulousEditor { }
     [CustomEditor(typeof(PrefabulousEditAllMeshAnchorOverride))] [CanEditMultipleObjects] public class PrefabulousEditMeshAnchorOverrideEditor : PrefabulousEditor { }
     [CustomEditor(typeof(PrefabulousEditAllMeshBounds))] [CanEditMultipleObjects] public class PrefabulousEditMeshBoundsEditor : PrefabulousEditor { }
     [CustomEditor(typeof(PrefabulousHaiFaceTrackingExtensions))] [CanEditMultipleObjects] public class PrefabulousHaiFaceTrackingExtensionsEditor : PrefabulousEditor { }

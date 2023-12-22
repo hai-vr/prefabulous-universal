@@ -15,10 +15,12 @@ namespace Prefabulous.VRC.Editor
                 {
                     var my = ctx.AvatarRootTransform.GetComponentInChildren<PrefabulousChangeAvatarScale>(true);
                     if (my == null) return;
-                    
-                    Debug.Log($"({GetType().Name}) Rescaling from {my.sourceSizeInMeters:0.000}m to {my.desiredSizeInMeters:0.000}m");
 
-                    var ratio = my.desiredSizeInMeters / my.sourceSizeInMeters;
+                    var effectiveSourceSizeInMeters = my.customSourceSize ? my.sourceSizeInMeters : ctx.AvatarDescriptor.ViewPosition.y;
+                    
+                    Debug.Log($"({GetType().Name}) Rescaling from {effectiveSourceSizeInMeters:0.000}m to {my.desiredSizeInMeters:0.000}m");
+
+                    var ratio = my.desiredSizeInMeters / effectiveSourceSizeInMeters;
                     ctx.AvatarRootTransform.localScale *= ratio;
                     ctx.AvatarDescriptor.ViewPosition *= ratio;
                 });
