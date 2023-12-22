@@ -194,7 +194,10 @@ namespace Prefabulous.VRC.Editor
 
                     EditorGUILayout.BeginHorizontal();
                     var bslower = blendShapeName.ToLowerInvariant();
-                    if (bslower.StartsWith("kisekae_") || bslower.StartsWith("shrink_"))
+                    if (bslower.StartsWith("kisekae_")
+                        || bslower.StartsWith("shrink_")
+                        || bslower.StartsWith("hidemesh_")
+                        )
                     {
                         EditorGUILayout.TextField(blendShapeName, _red);
                     }
