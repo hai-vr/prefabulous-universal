@@ -73,6 +73,7 @@ namespace Prefabulous.VRC.Editor
             // which turns it into multiple vertices in the engine mesh data representation.
             // To fix this, we store the indices that have the same position and normal (pre-recalculate normals),
             // and then reuse these indices to re-recalculate an "average normal", which isn't always accurate but is a good trade-off.
+            // LEARN MORE: https://hai-vr.notion.site/Recalculate-Normals-Retrospective-e8b319e25c5a4b779c220a4d8286ded4
             var indicesWithSamePosNorm = StoreIndicesWithSamePositionAndNormal(bake0mesh);
             // We're recalculating normals on a 0-mesh because we want the delta to be based on the diff with Unity's RecalculateNormals judgement
             bake0mesh.RecalculateNormals();
@@ -139,9 +140,12 @@ namespace Prefabulous.VRC.Editor
                         var zero = 0;
                         for (var i = 0; i < originalMesh.vertexCount; i++)
                         {
+                            // Only recalculate deltas on some vertices, based on the deltas we've calculated previously.
+                            // Since this only affects some vertices, this prevents incorrect delta normals from contaminating unrelated vertices in the mesh.
                             if (deltaVertices[i] != Vector3.zero || deltaNormals[i] != Vector3.zero)
                             {
                                 nonZero++;
+                                // Erase custom split normals by using the original mesh rather than the base recalculated mesh
                                 deltaNormals[i] = bakedShapeNormals[i] - originalNormals[i];
                                 deltaTangents[i] = (Vector3)(bakedShapeTangents[i] - originalTangents[i]);
                             }
@@ -168,6 +172,7 @@ namespace Prefabulous.VRC.Editor
 
         private void ReRecalculateNormalsInUVSeams(Mesh mesh, List<int[]> indicesWithSamePosNorm)
         {
+            // LEARN MORE: https://hai-vr.notion.site/Recalculate-Normals-Retrospective-e8b319e25c5a4b779c220a4d8286ded4
             var normals = mesh.normals;
             foreach (var indices in indicesWithSamePosNorm)
             {
