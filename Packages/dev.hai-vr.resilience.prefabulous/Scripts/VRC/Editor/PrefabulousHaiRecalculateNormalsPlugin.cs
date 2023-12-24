@@ -15,7 +15,8 @@ namespace Prefabulous.VRC.Editor
         protected override void Configure()
         {
             var seq = InPhase(BuildPhase.Transforming)
-                .AfterPlugin("Hai.FaceTraShape.Editor.HFTSCPlugin");
+                .AfterPlugin("Hai.FaceTraShape.Editor.HFTSCPlugin")
+                .AfterPlugin<PrefabulousHaiGenerateBlendshapesFTEPlugin>();
             
             seq.Run("Recalculate Normals", RecalculateNormals);
         }
