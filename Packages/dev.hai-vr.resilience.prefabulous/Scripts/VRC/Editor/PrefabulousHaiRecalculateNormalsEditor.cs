@@ -96,6 +96,23 @@ namespace Prefabulous.VRC.Editor
             {
                 EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiRecalculateNormals.renderers)));
             }
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiRecalculateNormals.eraseCustomSplitNormals)));
+            if (GUILayout.Button("?", GUILayout.Width(50)))
+            {
+                Application.OpenURL("https://docs.hai-vr.dev/docs/products/prefabulous-avatar/hai-components/recalculate-normals#option-erase-custom-split-normals");
+            }
+            EditorGUILayout.EndHorizontal();
+            
+            if (my.eraseCustomSplitNormals)
+            {
+                EditorGUILayout.HelpBox("Erase Custom Split Normals is enabled.\nThis will cause a change in the recalculation algorithm. This change can cause worse results!\nPlease consult the documentation to learn more.", MessageType.Warning);
+                if (GUILayout.Button("Open documentation"))
+                {
+                    Application.OpenURL("https://docs.hai-vr.dev/docs/products/prefabulous-avatar/hai-components/recalculate-normals#option-erase-custom-split-normals");
+                }
+            }
                     
             EditorGUILayout.Space();
             

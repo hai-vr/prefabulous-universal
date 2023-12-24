@@ -39,14 +39,20 @@ namespace Prefabulous.VRC.Editor
                     .SelectMany(normals => normals.blendShapes)
                     .Where(blendShape => thatSmrBlendShapes.Contains(blendShape))
                     .ToList();
+                var eraseCustomSplitNormalsBlendShapes = recalculates
+                    .Where(recalculate => recalculate.eraseCustomSplitNormals)
+                    .Where(recalculate => !recalculate.limitToSpecificMeshes || recalculate.renderers.Contains(smr))
+                    .SelectMany(normals => normals.blendShapes)
+                    .Where(blendShape => thatSmrBlendShapes.Contains(blendShape))
+                    .ToList();
                 if (applicableBlendShapes.Count > 0)
                 {
-                    RecalculateNormalsOf(smr, thatSmrBlendShapes, applicableBlendShapes);
+                    RecalculateNormalsOf(smr, thatSmrBlendShapes, applicableBlendShapes, eraseCustomSplitNormalsBlendShapes);
                 }
             }
         }
 
-        private void RecalculateNormalsOf(SkinnedMeshRenderer smr, List<string> thatSmrBlendShapes, List<string> applicableBlendShapes)
+        private void RecalculateNormalsOf(SkinnedMeshRenderer smr, List<string> thatSmrBlendShapes, List<string> applicableBlendShapes, List<string> eraseCustomSplitNormalsBlendShapes)
         {
             // TODO: If multiple SMRs share the same sharedMesh, it may not be necessary to do this op on all of them
             // However, it's rare for a single avatar to be referencing the same SMR mesh mutliple times.
@@ -70,6 +76,10 @@ namespace Prefabulous.VRC.Editor
             bake0mesh.RecalculateNormals();
             ReRecalculateNormalsInUVSeams(bake0mesh, indicesWithSamePosNorm);
             bake0mesh.RecalculateTangents();
+            
+            // Export normals and tangents now to avoid Unity extern access
+            var originalNormals = originalMesh.normals;
+            var originalTangents = originalMesh.tangents;
             
             // Export normals and tangents now to avoid Unity extern access
             var bake0MeshNormals = bake0mesh.normals;
@@ -119,6 +129,26 @@ namespace Prefabulous.VRC.Editor
                         // Therefore execute this even when the delta vertex is equal to zero.
                         deltaNormals[i] = bakedShapeNormals[i] - bake0MeshNormals[i];
                         deltaTangents[i] = (Vector3)(bakedShapeTangents[i] - bake0MeshTangents[i]); // TODO: What's the deal with the binormal (Vector4 tangents)?
+                    }
+
+                    if (eraseCustomSplitNormalsBlendShapes.Contains(applicableBlendShape))
+                    {
+                        var nonZero = 0;
+                        var zero = 0;
+                        for (var i = 0; i < originalMesh.vertexCount; i++)
+                        {
+                            if (deltaVertices[i] != Vector3.zero || deltaNormals[i] != Vector3.zero)
+                            {
+                                nonZero++;
+                                deltaNormals[i] = bakedShapeNormals[i] - originalNormals[i];
+                                deltaTangents[i] = (Vector3)(bakedShapeTangents[i] - originalTangents[i]);
+                            }
+                            else
+                            {
+                                zero++;
+                            }
+                        }
+                        Debug.Log($"({GetType().Name}) Erasing custom split normals on blendshape {applicableBlendShape} in SMR {smr.name} resulted in {nonZero} non-zero vertices and {zero} zero vertices");
                     }
                     
                     nameToFrameDeltaBakes[applicableBlendShape][frameIndex].vertices = deltaVertices.ToArray();
