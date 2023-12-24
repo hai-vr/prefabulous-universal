@@ -8,7 +8,6 @@ namespace Prefabulous.VRC.Editor
     [CustomEditor(typeof(PrefabulousChangeAvatarScale))]
     public class PrefabulousChangeAvatarScaleEditor : UnityEditor.Editor
     {
-        private static bool _doNotHideBodyMesh;
         private Dictionary<string, float> _animMaxvalsNullable;
 
         public override void OnInspectorGUI()
