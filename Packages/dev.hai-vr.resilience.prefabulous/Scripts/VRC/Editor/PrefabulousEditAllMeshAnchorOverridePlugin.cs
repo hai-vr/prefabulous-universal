@@ -12,7 +12,7 @@ namespace Prefabulous.VRC.Editor
         protected override void Configure()
         {
             InPhase(BuildPhase.Transforming)
-                .Run("Edit Mesh Bounds", context =>
+                .Run("Edit Mesh Anchor Override", context =>
                 {
                     var prefabulousComps = context.AvatarRootTransform.GetComponentsInChildren<PrefabulousEditAllMeshAnchorOverride>(true);
                     if (prefabulousComps.Length == 0) return;
