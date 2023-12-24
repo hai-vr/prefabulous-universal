@@ -26,13 +26,7 @@ namespace Prefabulous.VRC.Editor
 
             var blendShapePropertyPrefix = "blendShape.";
             var lengthOfBlendShapePrefix = blendShapePropertyPrefix.Length;
-            var blendShapeValues = descriptor.baseAnimationLayers
-                .Where(layer => !layer.isDefault)
-                .Select(layer => layer.animatorController)
-                .Concat(descriptor.GetComponentsInChildren<ModularAvatarMergeAnimator>(true)
-                    .Select(animator => animator.animator))
-                .Where(controller => controller != null)
-                .SelectMany(controller => controller.animationClips)
+            var blendShapeValues = PrefabulousUtil.FindAllRelevantAnimationClips(descriptor)
                 .SelectMany(clip =>
                 {
                     return AnimationUtility.GetCurveBindings(clip)
@@ -67,7 +61,7 @@ namespace Prefabulous.VRC.Editor
 
             _animMaxvalsNullable = blendshapeToAnimMaxval;
         }
-        
+
         internal struct BlendShapeWeight
         {
             public BlendShapeWeight(string name, float weight)
