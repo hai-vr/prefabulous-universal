@@ -21,7 +21,7 @@ namespace Prefabulous.VRC.Editor
             _animMaxvalsNullable = null;
             
             var my = (PrefabulousHaiRecalculateNormals)target;
-            var descriptor = my.transform.GetComponentInParent<VRCAvatarDescriptor>(true);
+            var descriptor = my.transform.GetComponentInParent<VRCAvatarDescriptor>();
             if (descriptor == null) return;
 
             var blendShapePropertyPrefix = "blendShape.";

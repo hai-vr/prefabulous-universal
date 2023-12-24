@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using nadena.dev.ndmf;
 using Prefabulous.Hai.Runtime;
@@ -237,7 +236,15 @@ namespace Prefabulous.VRC.Editor
 
             public override int GetHashCode()
             {
-                return HashCode.Combine(position, normal);
+#if UNITY_2022_1_OR_NEWER
+                return System.HashCode.Combine(position, normal);
+
+#else
+                unchecked
+                {
+                    return (position.GetHashCode() * 397) ^ normal.GetHashCode();
+                }
+#endif
             }
         }
 
