@@ -38,12 +38,14 @@ namespace Prefabulous.VRC.Editor
                     .Where(recalculate => !recalculate.limitToSpecificMeshes || recalculate.renderers.Contains(smr))
                     .SelectMany(normals => normals.blendShapes)
                     .Where(blendShape => thatSmrBlendShapes.Contains(blendShape))
+                    .Distinct()
                     .ToList();
                 var eraseCustomSplitNormalsBlendShapes = recalculates
                     .Where(recalculate => recalculate.eraseCustomSplitNormals)
                     .Where(recalculate => !recalculate.limitToSpecificMeshes || recalculate.renderers.Contains(smr))
                     .SelectMany(normals => normals.blendShapes)
                     .Where(blendShape => thatSmrBlendShapes.Contains(blendShape))
+                    .Distinct()
                     .ToList();
                 if (applicableBlendShapes.Count > 0)
                 {
