@@ -39,20 +39,30 @@ namespace Prefabulous.VRC.Editor
                     .Where(blendShape => thatSmrBlendShapes.Contains(blendShape))
                     .Distinct()
                     .ToList();
+                var keepPartialBlendshapes = deletePolygons
+                    .Where(recalculate => recalculate.keepPartialPolygons)
+                    .Where(recalculate => !recalculate.limitToSpecificMeshes || recalculate.renderers.Contains(smr))
+                    .SelectMany(normals => normals.blendShapes)
+                    .Where(blendShape => thatSmrBlendShapes.Contains(blendShape))
+                    .Distinct()
+                    .ToList();
                 if (applicableBlendShapes.Count > 0)
                 {
-                    DeletePolygonsOf(smr, thatSmrBlendShapes, applicableBlendShapes);
+                    DeletePolygonsOf(smr, thatSmrBlendShapes, applicableBlendShapes, keepPartialBlendshapes);
                 }
             }
         }
 
-        private void DeletePolygonsOf(SkinnedMeshRenderer smr, List<string> thatSmrBlendShapes, List<string> applicableBlendShapes)
+        private void DeletePolygonsOf(SkinnedMeshRenderer smr, List<string> thatSmrBlendShapes,
+            List<string> applicableBlendShapes, List<string> keepPartialBlendshapes)
         {
             // TODO: If multiple SMRs share the same sharedMesh, it may not be necessary to do this op on all of them
             // However, it's rare for a single avatar to be referencing the same SMR mesh mutliple times.
             var originalMesh = smr.sharedMesh;
 
             var verticesToDelete = new bool[originalMesh.vertexCount];
+            var partialVertices = new bool[originalMesh.vertexCount];
+            var anyPartial = false;
 
             var verts = new Vector3[originalMesh.vertexCount];
             var norms = new Vector3[originalMesh.vertexCount];
@@ -60,6 +70,7 @@ namespace Prefabulous.VRC.Editor
         
             foreach (var blendShape in applicableBlendShapes)
             {
+                var needsPartial = keepPartialBlendshapes.Contains(blendShape);
                 var index = thatSmrBlendShapes.IndexOf(blendShape);
                 for (var frame = 0; frame < originalMesh.GetBlendShapeFrameCount(index); frame++)
                 {
@@ -71,7 +82,43 @@ namespace Prefabulous.VRC.Editor
                         if (vector3 != Vector3.zero)
                         {
                             verticesToDelete[vertexIndex] = true;
+                            if (needsPartial)
+                            {
+                                partialVertices[vertexIndex] = true;
+                                anyPartial = true;
+                            }
                         }
+                    }
+                }
+            }
+
+            if (anyPartial)
+            {
+                var toUndelete = new bool[originalMesh.vertexCount];
+                var triangles = originalMesh.triangles;
+                var triangleCount = triangles.Length / 3;
+                for (var triangle = 0; triangle < triangleCount; triangle++)
+                {
+                    var a = triangles[3 * triangle];
+                    var b = triangles[3 * triangle + 1];
+                    var c = triangles[3 * triangle + 2];
+
+                    var atLeastOneIsPartial = partialVertices[a] || partialVertices[b] || partialVertices[c];
+                    var anyIsNotDeleted = !verticesToDelete[a] || !verticesToDelete[b] || !verticesToDelete[c];
+                    if (atLeastOneIsPartial && anyIsNotDeleted)
+                    {
+                        toUndelete[a] = true;
+                        toUndelete[b] = true;
+                        toUndelete[c] = true;
+                    }
+                }
+
+                for (var index = 0; index < toUndelete.Length; index++)
+                {
+                    var shouldUndelete = toUndelete[index];
+                    if (shouldUndelete)
+                    {
+                        verticesToDelete[index] = false;
                     }
                 }
             }

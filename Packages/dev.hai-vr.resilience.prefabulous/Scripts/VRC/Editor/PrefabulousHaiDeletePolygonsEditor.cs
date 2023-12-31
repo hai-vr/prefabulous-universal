@@ -25,6 +25,8 @@ namespace Prefabulous.VRC.Editor
             {
                 EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiDeletePolygons.renderers)));
             }
+            
+            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiDeletePolygons.keepPartialPolygons)));
                     
             EditorGUILayout.Space();
             

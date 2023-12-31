@@ -9,5 +9,7 @@ namespace Prefabulous.Hai.Runtime
         public string[] blendShapes;
         public bool limitToSpecificMeshes;
         public SkinnedMeshRenderer[] renderers;
+        
+        public bool keepPartialPolygons;
     }
 }
