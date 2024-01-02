@@ -104,8 +104,8 @@ namespace Prefabulous.VRC.Editor
                     var c = triangles[3 * triangle + 2];
 
                     var atLeastOneIsPartial = partialVertices[a] || partialVertices[b] || partialVertices[c];
-                    var anyIsNotDeleted = !verticesToDelete[a] || !verticesToDelete[b] || !verticesToDelete[c];
-                    if (atLeastOneIsPartial && anyIsNotDeleted)
+                    bool AnyIsNotDeleted() => !verticesToDelete[a] || !verticesToDelete[b] || !verticesToDelete[c];
+                    if (atLeastOneIsPartial && AnyIsNotDeleted())
                     {
                         toUndelete[a] = true;
                         toUndelete[b] = true;
@@ -132,10 +132,10 @@ namespace Prefabulous.VRC.Editor
                 oldIndexToNewIndex[remap[newVertexIndex]] = newVertexIndex;
             }
 
-            smr.sharedMesh = InstantiateNewMeshAndDeleteVerticesFromMesh(originalMesh, verticesToDelete, oldIndexToNewIndex, smr.name);
+            smr.sharedMesh = InstantiateNewMeshAndDeleteVerticesFromMesh(originalMesh, verticesToDelete, partialVertices, oldIndexToNewIndex, smr.name);
         }
 
-        private Mesh InstantiateNewMeshAndDeleteVerticesFromMesh(Mesh originalMesh, bool[] verticesToDelete, Dictionary<int, int> oldIndexToNewIndex, string smrName)
+        private Mesh InstantiateNewMeshAndDeleteVerticesFromMesh(Mesh originalMesh, bool[] verticesToDelete, bool[] partialVertices, Dictionary<int, int> oldIndexToNewIndex, string smrName)
         {
             var mesh = new Mesh();
             
@@ -191,7 +191,7 @@ namespace Prefabulous.VRC.Editor
             for (var subMeshIndex = 0; subMeshIndex < originalMesh.subMeshCount; subMeshIndex++)
             {
                 var indices = originalMesh.GetIndices(subMeshIndex);
-                var newIndices = NewTrianglesDeleteVerts(indices, verticesToDelete, oldIndexToNewIndex);
+                var newIndices = NewTrianglesDeleteVerts(indices, verticesToDelete, partialVertices, oldIndexToNewIndex);
                 mesh.SetIndices(newIndices, MeshTopology.Triangles, subMeshIndex);
             }
 
@@ -224,7 +224,8 @@ namespace Prefabulous.VRC.Editor
                 .ToArray();
         }
 
-        private int[] NewTrianglesDeleteVerts(int[] triangles, bool[] verticesToDelete, Dictionary<int, int> oldIndexToNewIndex)
+        private int[] NewTrianglesDeleteVerts(int[] triangles, bool[] verticesToDelete, bool[] partialVertices,
+            Dictionary<int, int> oldIndexToNewIndex)
         {
             var originalTriangleTriads = triangles;
             var triangleCount = originalTriangleTriads.Length / 3;
@@ -235,9 +236,10 @@ namespace Prefabulous.VRC.Editor
                     var b = originalTriangleTriads[3 * triangleIndex + 1];
                     var c = originalTriangleTriads[3 * triangleIndex + 2];
 
-                    var shouldDeleteTriangle = verticesToDelete[a]
-                                               || verticesToDelete[b]
-                                               || verticesToDelete[c];
+                    var atLeastOneVertexDoesNotExist = verticesToDelete[a] || verticesToDelete[b] || verticesToDelete[c];
+                    bool AreAllPartialVertices() => partialVertices[a] && partialVertices[b] && partialVertices[c];
+
+                    var shouldDeleteTriangle = atLeastOneVertexDoesNotExist || AreAllPartialVertices();
                     if (shouldDeleteTriangle)
                     {
                         return Array.Empty<int>();
