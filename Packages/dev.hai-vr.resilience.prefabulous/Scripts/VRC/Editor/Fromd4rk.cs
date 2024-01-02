@@ -41,18 +41,35 @@ namespace Prefabulous.VRC.Editor
             // From d4rkAvatarOptimizer.cs :: CombineAndOptimizeMaterials
             for (int i = 0; i < 8; i++)
             {
-                if (targetUv[i].Any(uv => uv.w != 0))
-                {
-                    mesh.SetUVs(i, targetUv[i]);
-                }
-                else if (targetUv[i].Any(uv => uv.z != 0))
-                {
-                    mesh.SetUVs(i, targetUv[i].Select(uv => new Vector3(uv.x, uv.y, uv.z)).ToArray());
-                }
-                else if (targetUv[i].Any(uv => uv.x != 0 || uv.y != 0))
-                {
-                    mesh.SetUVs(i, targetUv[i].Select(uv => new Vector2(uv.x, uv.y)).ToArray());
-                }
+                var thatUV = targetUv[i];
+                SetUV(mesh, i, thatUV, true);
+            }
+        }
+
+        public static void SetUV(Mesh mesh, int channel, Vector4[] thatUV)
+        {
+            SetUV(mesh, channel, thatUV, false);
+        }
+
+        private static void SetUV(Mesh mesh, int channel, Vector4[] thatUV, bool doNothingIfThatUVIsOnlyZeroes)
+        {
+            // From d4rkAvatarOptimizer.cs :: CombineAndOptimizeMaterials
+            if (thatUV.Any(uv => uv.w != 0))
+            {
+                mesh.SetUVs(channel, thatUV);
+            }
+            else if (thatUV.Any(uv => uv.z != 0))
+            {
+                mesh.SetUVs(channel, thatUV.Select(uv => new Vector3(uv.x, uv.y, uv.z)).ToArray());
+            }
+            else if (thatUV.Any(uv => uv.x != 0 || uv.y != 0))
+            {
+                mesh.SetUVs(channel, thatUV.Select(uv => new Vector2(uv.x, uv.y)).ToArray());
+            }
+            // Custom code (Haï)
+            else if (!doNothingIfThatUVIsOnlyZeroes)
+            {
+                mesh.SetUVs(channel, Enumerable.Range(0, thatUV.Length).Select(i => Vector2.zero).ToArray());
             }
         }
     }

@@ -6,23 +6,27 @@ using Prefabulous.Hai.Runtime;
 using Prefabulous.VRC.Editor;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Object = UnityEngine.Object;
 
-[assembly: ExportsPlugin(typeof(PrefabulousHaiDeletePolygonsPlugin))]
+[assembly: ExportsPlugin(typeof(PrefabulousHaiAssignUVTilePlugin))]
 namespace Prefabulous.VRC.Editor
 {
-    public class PrefabulousHaiDeletePolygonsPlugin : Plugin<PrefabulousHaiDeletePolygonsPlugin>
+    public class PrefabulousHaiAssignUVTilePlugin : Plugin<PrefabulousHaiAssignUVTilePlugin>
     {
+        private const float Offset = 0.5f;
+
         protected override void Configure()
         {
-            var seq = InPhase(BuildPhase.Optimizing);
-            
-            seq.Run("Delete Polygons", DeletePolygons);
+            var seq = InPhase(BuildPhase.Optimizing)
+                .AfterPlugin<PrefabulousHaiDeletePolygonsPlugin>();
+
+            seq.Run("Assign UV Tiles", AssignUVTIles);
         }
 
-        private void DeletePolygons(BuildContext context)
+        private void AssignUVTIles(BuildContext context)
         {
-            var deletePolygons = context.AvatarRootTransform.GetComponentsInChildren<PrefabulousHaiDeletePolygons>(true);
-            if (deletePolygons.Length == 0) return;
+            var assignUVTiles = context.AvatarRootTransform.GetComponentsInChildren<PrefabulousHaiAssignUVTile>(true);
+            if (assignUVTiles.Length == 0) return;
 
             var smrs = context.AvatarRootTransform.GetComponentsInChildren<SkinnedMeshRenderer>(true);
             foreach (var smr in smrs)
@@ -33,45 +37,118 @@ namespace Prefabulous.VRC.Editor
                 var thatSmrBlendShapes = Enumerable.Range(0, mesh.blendShapeCount)
                     .Select(i => mesh.GetBlendShapeName(i))
                     .ToList();
-                var applicableBlendShapes = deletePolygons
+                var applicableBlendShapes = assignUVTiles
                     .Where(recalculate => !recalculate.limitToSpecificMeshes || recalculate.renderers.Contains(smr))
-                    .SelectMany(recalculate => recalculate.blendShapes)
-                    .Where(blendShape => thatSmrBlendShapes.Contains(blendShape))
-                    .Distinct()
+                    .SelectMany(uvTile =>
+                    {
+                        return uvTile.blendShapes
+                            .Where(blendShape => thatSmrBlendShapes.Contains(blendShape))
+                            .Distinct()
+                            .Select(blendShape => new AssignUVTileIntermediate
+                            {
+                                blendShape = blendShape,
+                                channel = uvTile.uvChannel,
+                                u = uvTile.u,
+                                v = uvTile.v,
+                                existingData = uvTile.existingData
+                            });
+                    })
                     .ToList();
-                var keepPartialBlendshapes = deletePolygons
+                var keepPartialBlendshapes = assignUVTiles
                     .Where(recalculate => recalculate.keepPartialPolygons)
                     .Where(recalculate => !recalculate.limitToSpecificMeshes || recalculate.renderers.Contains(smr))
-                    .SelectMany(recalculate => recalculate.blendShapes)
+                    .SelectMany(normals => normals.blendShapes)
                     .Where(blendShape => thatSmrBlendShapes.Contains(blendShape))
                     .Distinct()
                     .ToList();
                 if (applicableBlendShapes.Count > 0)
                 {
-                    DeletePolygonsOf(smr, thatSmrBlendShapes, applicableBlendShapes, keepPartialBlendshapes);
+                    AssignUVTileOf(smr, thatSmrBlendShapes, applicableBlendShapes, keepPartialBlendshapes);
                 }
             }
         }
 
-        private void DeletePolygonsOf(SkinnedMeshRenderer smr, List<string> thatSmrBlendShapes,
-            List<string> applicableBlendShapes, List<string> keepPartialBlendshapes)
+        internal struct AssignUVTileIntermediate
+        {
+            public string blendShape;
+            public PrefabulousHaiAssignUVTile.UVChannel channel;
+            public int u;
+            public int v;
+            public PrefabulousHaiAssignUVTile.ExistingData existingData;
+        }
+        //
+        // internal struct AssignUVTileWork
+        // {
+        //     public string blendShape;
+        //     public Dictionary<PrefabulousHaiAssignUVTile.UVChannel, AssignUVTileChannels> channels;
+        // }
+        //
+        // internal struct AssignUVTileChannels
+        // {
+        //     public int u;
+        //     public int v;
+        // }
+
+        private void AssignUVTileOf(SkinnedMeshRenderer smr, List<string> thatSmrBlendShapes,
+            List<AssignUVTileIntermediate> applicableBlendShapes, List<string> keepPartialBlendshapes)
         {
             // TODO: If multiple SMRs share the same sharedMesh, it may not be necessary to do this op on all of them
             // However, it's rare for a single avatar to be referencing the same SMR mesh mutliple times.
             var originalMesh = smr.sharedMesh;
 
-            PrefabulousUtil.FigureOutAffectedVertices(out var verticesToDelete, out var partialVertices, thatSmrBlendShapes, applicableBlendShapes, keepPartialBlendshapes, originalMesh);
+            var mesh = Object.Instantiate(originalMesh);
 
-            var remap = Enumerable.Range(0, originalMesh.vertexCount)
-                .Where(i => !verticesToDelete[i])
-                .ToArray();
-            var oldIndexToNewIndex = new Dictionary<int, int>();
-            for (var newVertexIndex = 0; newVertexIndex < remap.Length; newVertexIndex++)
+            var channelToBlendShapes = applicableBlendShapes.GroupBy(intermediate => intermediate.channel).ToDictionary(grouping => grouping.Key, grouping => grouping.ToArray());
+            foreach (var channelToBlendShape in channelToBlendShapes)
             {
-                oldIndexToNewIndex[remap[newVertexIndex]] = newVertexIndex;
-            }
+                var uvChannel = channelToBlendShape.Key;
+                var intermediatesOfThisChannel = channelToBlendShape.Value;
+                
+                var channelNumber = AsChannelNumber(uvChannel);
+                var existingData = GetExistingData(intermediatesOfThisChannel);
 
-            smr.sharedMesh = InstantiateNewMeshAndDeleteVerticesFromMesh(originalMesh, verticesToDelete, partialVertices, oldIndexToNewIndex, smr.name);
+                var uvs = existingData == PrefabulousHaiAssignUVTile.ExistingData.DoNotClear
+                    ? PrefabulousUtil.GetUVsDefensively(originalMesh, channelNumber)
+                    : Enumerable.Repeat(
+                        existingData == PrefabulousHaiAssignUVTile.ExistingData.SetToZero
+                            ? new Vector4(0 + Offset, 0 + Offset, 0f, 0f)
+                            : new Vector4(-1 + Offset, -1 + Offset, 0f, 0f),
+                        originalMesh.vertexCount).ToArray();
+                
+                foreach (var intermediate in intermediatesOfThisChannel)
+                {
+                    var uv = new Vector4(intermediate.u + Offset, intermediate.v + Offset, 0f, 0f);
+                    PrefabulousUtil.FigureOutAffectedVertices(out var verticesToDelete, out var partialVertices, thatSmrBlendShapes, new[] { intermediate.blendShape }.ToList(), keepPartialBlendshapes, originalMesh);
+                    for (var index = 0; index < verticesToDelete.Length; index++)
+                    {
+                        var shouldAssign = verticesToDelete[index];
+                        if (shouldAssign)
+                        {
+                            uvs[index] = uv;
+                        }
+                    }
+                }
+
+                Fromd4rk.SetUV(mesh, channelNumber, uvs);
+            }
+            
+            smr.sharedMesh = mesh;
+        }
+
+        private PrefabulousHaiAssignUVTile.ExistingData GetExistingData(AssignUVTileIntermediate[] intermediatesOfThisChannel)
+        {
+            var datas = intermediatesOfThisChannel
+                .Select(intermediate => intermediate.existingData)
+                .Distinct()
+                .ToArray();
+            if (datas.Contains(PrefabulousHaiAssignUVTile.ExistingData.SetToMinusOne)) return PrefabulousHaiAssignUVTile.ExistingData.SetToMinusOne;
+            if (datas.Contains(PrefabulousHaiAssignUVTile.ExistingData.SetToZero)) return PrefabulousHaiAssignUVTile.ExistingData.SetToZero;
+            return PrefabulousHaiAssignUVTile.ExistingData.DoNotClear;
+        }
+
+        private static int AsChannelNumber(PrefabulousHaiAssignUVTile.UVChannel uvChannel)
+        {
+            return (int)uvChannel;
         }
 
         private Mesh InstantiateNewMeshAndDeleteVerticesFromMesh(Mesh originalMesh, bool[] verticesToDelete, bool[] partialVertices, Dictionary<int, int> oldIndexToNewIndex, string smrName)
@@ -97,17 +174,7 @@ namespace Prefabulous.VRC.Editor
             mesh.boneWeights = NewArrayDeleteVerts(originalMesh.boneWeights, verticesToDelete);
 
             var channels = Enumerable.Range(0, 8)
-                .Select(uvChannel =>
-                {
-                    var result = new List<Vector4>();
-                    originalMesh.GetUVs(uvChannel, result);
-
-                    if (result.Count != originalMesh.vertexCount)
-                    {
-                        return new Vector4[originalMesh.vertexCount];
-                    }
-                    return result.ToArray();
-                })
+                .Select(uvChannel => PrefabulousUtil.GetUVsDefensively(originalMesh, uvChannel))
                 .Select(uvs => NewArrayDeleteVerts(uvs, verticesToDelete))
                 .ToArray();
 
@@ -176,7 +243,7 @@ namespace Prefabulous.VRC.Editor
                     var c = originalTriangleTriads[3 * triangleIndex + 2];
 
                     var atLeastOneVertexDoesNotExist = verticesToDelete[a] || verticesToDelete[b] || verticesToDelete[c];
-                    bool AreAllPartialVertices() => partialVertices[a] && partialVertices[b] && partialVertices[c];
+                    bool AreAllPartialVertices() => partialVertices[a] || partialVertices[b] || partialVertices[c];
 
                     var shouldDeleteTriangle = atLeastOneVertexDoesNotExist || AreAllPartialVertices();
                     if (shouldDeleteTriangle)

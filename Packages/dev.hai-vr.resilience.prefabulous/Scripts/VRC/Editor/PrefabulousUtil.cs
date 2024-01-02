@@ -180,5 +180,92 @@ namespace Prefabulous.VRC.Editor
                 }
             }
         }
+
+        // Algorithm used for Delete Polygons, but it is also used in Assign UV Tile.
+        // The output variable "verticesToDeleteOut" is used in Assign UV Tile for the vertices that will be assigned to that UV Tile.
+        public static void FigureOutAffectedVertices(out bool[] verticesToDeleteOut, out bool[] partialVerticesOut,
+            List<string> thatSmrBlendShapes, List<string> applicableBlendShapes,
+            List<string> keepPartialBlendshapes, Mesh originalMesh)
+        {
+            var verticesToDelete = new bool[originalMesh.vertexCount];
+            var partialVertices = new bool[originalMesh.vertexCount];
+            
+            var anyPartial = false;
+            
+            var verts = new Vector3[originalMesh.vertexCount];
+            var norms = new Vector3[originalMesh.vertexCount];
+            var tans = new Vector3[originalMesh.vertexCount];
+
+            foreach (var blendShape in applicableBlendShapes)
+            {
+                var needsPartial = keepPartialBlendshapes.Contains(blendShape);
+                var index = thatSmrBlendShapes.IndexOf(blendShape);
+                for (var frame = 0; frame < originalMesh.GetBlendShapeFrameCount(index); frame++)
+                {
+                    originalMesh.GetBlendShapeFrameVertices(index, frame, verts, norms, tans);
+
+                    for (var vertexIndex = 0; vertexIndex < verts.Length; vertexIndex++)
+                    {
+                        var vector3 = verts[vertexIndex];
+                        if (vector3 != Vector3.zero)
+                        {
+                            verticesToDelete[vertexIndex] = true;
+                            if (needsPartial)
+                            {
+                                partialVertices[vertexIndex] = true;
+                                anyPartial = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (anyPartial)
+            {
+                var toUndelete = new bool[originalMesh.vertexCount];
+                var triangles = originalMesh.triangles;
+                var triangleCount = triangles.Length / 3;
+                for (var triangle = 0; triangle < triangleCount; triangle++)
+                {
+                    var a = triangles[3 * triangle];
+                    var b = triangles[3 * triangle + 1];
+                    var c = triangles[3 * triangle + 2];
+
+                    var atLeastOneIsPartial = partialVertices[a] || partialVertices[b] || partialVertices[c];
+                    bool AnyIsNotDeleted() => !verticesToDelete[a] || !verticesToDelete[b] || !verticesToDelete[c];
+                    if (atLeastOneIsPartial && AnyIsNotDeleted())
+                    {
+                        toUndelete[a] = true;
+                        toUndelete[b] = true;
+                        toUndelete[c] = true;
+                    }
+                }
+
+                for (var index = 0; index < toUndelete.Length; index++)
+                {
+                    var shouldUndelete = toUndelete[index];
+                    if (shouldUndelete)
+                    {
+                        verticesToDelete[index] = false;
+                    }
+                }
+            }
+            
+            verticesToDeleteOut = verticesToDelete;
+            partialVerticesOut = partialVertices;
+        }
+
+        public static Vector4[] GetUVsDefensively(Mesh mesh, int uvChannel)
+        {
+            var result = new List<Vector4>();
+            mesh.GetUVs(uvChannel, result);
+
+            if (result.Count != mesh.vertexCount)
+            {
+                return new Vector4[mesh.vertexCount];
+            }
+
+            return result.ToArray();
+        }
     }
 }
