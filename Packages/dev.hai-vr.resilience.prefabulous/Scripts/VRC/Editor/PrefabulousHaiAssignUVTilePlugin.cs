@@ -107,24 +107,29 @@ namespace Prefabulous.VRC.Editor
                 var channelNumber = AsChannelNumber(uvChannel);
                 var existingData = GetExistingData(intermediatesOfThisChannel);
 
-                var uvs = existingData == PrefabulousHaiAssignUVTile.ExistingData.DoNotClear
-                    ? PrefabulousUtil.GetUVsDefensively(originalMesh, channelNumber)
+                var existingUvs = PrefabulousUtil.GetUVsDefensively(originalMesh, channelNumber);
+                var uvs = existingData == PrefabulousHaiAssignUVTile.ExistingData.DoNotClear || existingData == PrefabulousHaiAssignUVTile.ExistingData.Shift
+                    ? existingUvs
                     : Enumerable.Repeat(
                         existingData == PrefabulousHaiAssignUVTile.ExistingData.SetToZero
                             ? new Vector4(0 + Offset, 0 + Offset, 0f, 0f)
                             : new Vector4(-1 + Offset, -1 + Offset, 0f, 0f),
                         originalMesh.vertexCount).ToArray();
                 
+                
                 foreach (var intermediate in intermediatesOfThisChannel)
                 {
-                    var uv = new Vector4(intermediate.u + Offset, intermediate.v + Offset, 0f, 0f);
+                    var middleOfTile = new Vector4(intermediate.u + Offset, intermediate.v + Offset, 0f, 0f);
+                    var displacement = new Vector4(intermediate.u, intermediate.v, 0f, 0f);
                     PrefabulousUtil.FigureOutAffectedVertices(out var verticesToDelete, out var partialVertices, thatSmrBlendShapes, new[] { intermediate.blendShape }.ToList(), keepPartialBlendshapes, originalMesh);
                     for (var index = 0; index < verticesToDelete.Length; index++)
                     {
                         var shouldAssign = verticesToDelete[index];
                         if (shouldAssign)
                         {
-                            uvs[index] = uv;
+                            uvs[index] = existingData == PrefabulousHaiAssignUVTile.ExistingData.Shift
+                                ? (existingUvs[index] + displacement)
+                                : middleOfTile;
                         }
                     }
                 }
@@ -143,6 +148,7 @@ namespace Prefabulous.VRC.Editor
                 .ToArray();
             if (datas.Contains(PrefabulousHaiAssignUVTile.ExistingData.SetToMinusOne)) return PrefabulousHaiAssignUVTile.ExistingData.SetToMinusOne;
             if (datas.Contains(PrefabulousHaiAssignUVTile.ExistingData.SetToZero)) return PrefabulousHaiAssignUVTile.ExistingData.SetToZero;
+            if (datas.Contains(PrefabulousHaiAssignUVTile.ExistingData.Shift)) return PrefabulousHaiAssignUVTile.ExistingData.Shift;
             return PrefabulousHaiAssignUVTile.ExistingData.DoNotClear;
         }
 

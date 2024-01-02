@@ -26,6 +26,7 @@ namespace Prefabulous.Hai.Runtime
             DoNotClear,
             SetToMinusOne,
             SetToZero,
+            Shift,
         }
     }
 }
