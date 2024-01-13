@@ -66,6 +66,24 @@ namespace Prefabulous.VRC.Editor
                 baker.SetBlendShapeWeight(i, 0);
             }
 
+            var bonesInBindpose = originalMesh.bindposes
+                .Select(bindPose =>
+                {
+                    var inverse = Matrix4x4.Inverse(bindPose);
+                    var t = new GameObject
+                    {
+                        transform = { parent = baker.transform }
+                    }.transform;
+                    PrefabulousUtil.ExtractFromTRS(inverse, out var pos, out var rot, out var sca);
+                    t.localPosition = pos;
+                    t.localRotation = rot;
+                    t.localScale = sca;
+
+                    return t;
+                })
+                .ToArray();
+            baker.bones = bonesInBindpose;
+
             var bake0mesh = new Mesh();
             baker.BakeMesh(bake0mesh);
             

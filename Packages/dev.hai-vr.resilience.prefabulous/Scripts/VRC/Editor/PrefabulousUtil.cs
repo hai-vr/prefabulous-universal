@@ -11,6 +11,18 @@ namespace Prefabulous.VRC.Editor
 {
     public static class PrefabulousUtil
     {
+        public static void ExtractFromTRS(Matrix4x4 matrix, out Vector3 pos, out Quaternion rot, out Vector3 scale)
+        {
+            var c0 = matrix.GetColumn(0);
+            var c1 = matrix.GetColumn(1);
+            var c2 = matrix.GetColumn(2);
+            var c3 = matrix.GetColumn(3);
+            
+            pos = (Vector3)c3;
+            rot = Quaternion.LookRotation(c2, c1);
+            scale = new Vector3(c0.magnitude, c1.magnitude, c2.magnitude);
+        }
+        
         public static string[] GetAllBlendshapeNames(SkinnedMeshRenderer smr)
         {
             if (smr.sharedMesh == null) return Array.Empty<string>();
