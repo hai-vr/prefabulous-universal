@@ -15,15 +15,25 @@ namespace Prefabulous.VRC.Editor
 
             if (my.blendShapes == null) my.blendShapes = new string[0];
             if (my.renderers == null) my.renderers = new SkinnedMeshRenderer[0];
+            if (my.entireMeshes == null) my.entireMeshes = new Renderer[0];
             
-            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiAssignUVTile.blendShapes)), new GUIContent("BlendShapes"));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiAssignUVTile.limitToSpecificMeshes)));
-            if (my.limitToSpecificMeshes)
+            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiAssignUVTile.mode)));
+
+            if (my.mode == PrefabulousHaiAssignUVTile.AssignMode.BlendShapes)
             {
-                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiAssignUVTile.renderers)));
-            }
+                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiAssignUVTile.blendShapes)), new GUIContent("BlendShapes"));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiAssignUVTile.limitToSpecificMeshes)));
+                if (my.limitToSpecificMeshes)
+                {
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiAssignUVTile.renderers)));
+                }
             
-            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiAssignUVTile.keepPartialPolygons)));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiAssignUVTile.keepPartialPolygons)));
+            }
+            else if (my.mode == PrefabulousHaiAssignUVTile.AssignMode.EntireMesh)
+            {
+                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiAssignUVTile.entireMeshes)), new GUIContent("Meshes"));
+            }
             
             EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiAssignUVTile.uvChannel)), new GUIContent("UV Channel"));
 
@@ -35,17 +45,19 @@ namespace Prefabulous.VRC.Editor
             EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiAssignUVTile.u)));
             EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiAssignUVTile.v)));
             EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiAssignUVTile.existingData)), new GUIContent("Existing UV Data"));
-
-            EditorGUILayout.Space();
             
-            var smrs = PrefabulousUtil.FindSmrs(my.transform, my.limitToSpecificMeshes, my.renderers);
-            PrefabulousUtil.BuildBlendshapeStruct(smrs, out var affected, out var notAffected, out var smrToBlendshapes, out var blendshapeToMaxval, my.blendShapes, _doNotHideBodyMesh);
+            if (my.mode == PrefabulousHaiAssignUVTile.AssignMode.BlendShapes)
+            {
+                var smrs = PrefabulousUtil.FindSmrs(my.transform, my.limitToSpecificMeshes, my.renderers);
+                PrefabulousUtil.BuildBlendshapeStruct(smrs, out var affected, out var notAffected, out var smrToBlendshapes, out var blendshapeToMaxval, my.blendShapes, _doNotHideBodyMesh);
 
-            EditorGUILayout.Space();
-
-            PrefabulousUtil.ShowBlendshapeAssignments(my.blendShapes, smrToBlendshapes);
-
-            PrefabulousUtil.ShowAddBlendshapes(serializedObject, my.blendShapes, blendshapeToMaxval, nameof(PrefabulousHaiAssignUVTile.blendShapes), false, null, ref _doNotHideBodyMesh);
+                EditorGUILayout.Space();
+                EditorGUILayout.Space();
+                
+                PrefabulousUtil.ShowBlendshapeAssignments(my.blendShapes, smrToBlendshapes);
+                
+                PrefabulousUtil.ShowAddBlendshapes(serializedObject, my.blendShapes, blendshapeToMaxval, nameof(PrefabulousHaiAssignUVTile.blendShapes), false, null, ref _doNotHideBodyMesh);
+            }
 
             serializedObject.ApplyModifiedProperties();
         }
