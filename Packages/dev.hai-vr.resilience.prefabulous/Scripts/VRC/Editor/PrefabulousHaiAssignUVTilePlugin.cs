@@ -16,7 +16,8 @@ namespace Prefabulous.VRC.Editor
         protected override void Configure()
         {
             var seq = InPhase(BuildPhase.Optimizing)
-                .AfterPlugin<PrefabulousHaiDeletePolygonsPlugin>();
+                .AfterPlugin<PrefabulousHaiDeletePolygonsPlugin>()
+                .BeforePlugin("com.anatawa12.avatar-optimizer");
 
             seq.Run("Assign UV Tiles", AssignUVTIles);
         }

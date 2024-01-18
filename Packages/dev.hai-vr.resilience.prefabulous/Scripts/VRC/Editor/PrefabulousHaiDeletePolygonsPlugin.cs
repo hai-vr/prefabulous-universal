@@ -16,7 +16,8 @@ namespace Prefabulous.VRC.Editor
         {
             var seq = InPhase(BuildPhase.Optimizing);
             
-            seq.Run("Delete Polygons", DeletePolygons);
+            seq.Run("Delete Polygons", DeletePolygons)
+                .BeforePlugin("com.anatawa12.avatar-optimizer");
         }
 
         private void DeletePolygons(BuildContext context)
