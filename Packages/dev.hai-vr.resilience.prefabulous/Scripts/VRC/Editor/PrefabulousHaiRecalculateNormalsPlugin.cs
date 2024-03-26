@@ -15,7 +15,8 @@ namespace Prefabulous.VRC.Editor
         {
             var seq = InPhase(BuildPhase.Transforming)
                 .AfterPlugin("Hai.FaceTraShape.Editor.HFTSCPlugin")
-                .AfterPlugin<PrefabulousHaiGenerateBlendshapesFTEPlugin>();
+                .AfterPlugin<PrefabulousHaiGenerateBlendshapesFTEPlugin>()
+                .AfterPlugin<PrefabulousHaiConvertBlendshapeConventionsPlugin>();
             
             seq.Run("Recalculate Normals", RecalculateNormals);
         }
