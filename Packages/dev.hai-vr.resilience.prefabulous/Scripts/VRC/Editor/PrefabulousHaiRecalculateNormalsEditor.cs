@@ -74,9 +74,12 @@ namespace Prefabulous.VRC.Editor
 
         public override void OnInspectorGUI()
         {
-            _red = new GUIStyle(EditorStyles.textField);
-            _red.normal.textColor = Color.red;
-            
+            if (_red == null)
+            {
+                _red = new GUIStyle(EditorStyles.textField);
+                _red.normal.textColor = Color.red;
+            }
+
             var my = (PrefabulousHaiRecalculateNormals)target;
 
             if (my.blendShapes == null) my.blendShapes = new string[0];

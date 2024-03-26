@@ -14,6 +14,23 @@ namespace Prefabulous.VRC.Editor
 {
     public static class PrefabulousUtil
     {
+        public static T[] GetAllComponentsInChildrenExceptEditorOnly<T>(VRCAvatarDescriptor descriptor) where T : Component
+        {
+            return ExcludeEditorOnly(descriptor.GetComponentsInChildren<T>(true));
+        }
+
+        private static T[] ExcludeEditorOnly<T>(T[] comps) where T : Component
+        {
+            return comps.Where(comp => !IsInEditorOnly(comp.transform)).ToArray();
+        }
+
+        private static bool IsInEditorOnly(Transform t)
+        {
+            if (t.CompareTag("EditorOnly")) return true;
+            var parent = t.parent;
+            return parent != null && IsInEditorOnly(parent);
+        }
+        
         public static void ExtractFromTRS(Matrix4x4 matrix, out Vector3 pos, out Quaternion rot, out Vector3 scale)
         {
             var c0 = matrix.GetColumn(0);

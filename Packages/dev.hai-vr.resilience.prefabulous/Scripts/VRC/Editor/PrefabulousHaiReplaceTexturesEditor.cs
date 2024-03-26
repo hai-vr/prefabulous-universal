@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Prefabulous.Hai.Runtime;
+using Prefabulous.VRC.Editor;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
@@ -23,10 +24,10 @@ namespace VRC.Editor
             var descriptor = my.transform.GetComponentInParent<VRCAvatarDescriptor>();
             if (descriptor == null) return;
 
-            var skinnedMeshes = GetAllComponentsInChildrenExceptEditorOnly<SkinnedMeshRenderer>(descriptor);
-            var meshes = GetAllComponentsInChildrenExceptEditorOnly<MeshRenderer>(descriptor);
-            var trails = GetAllComponentsInChildrenExceptEditorOnly<TrailRenderer>(descriptor);
-            var particleSystems = GetAllComponentsInChildrenExceptEditorOnly<ParticleSystemRenderer>(descriptor);
+            var skinnedMeshes = PrefabulousUtil.GetAllComponentsInChildrenExceptEditorOnly<SkinnedMeshRenderer>(descriptor);
+            var meshes = PrefabulousUtil.GetAllComponentsInChildrenExceptEditorOnly<MeshRenderer>(descriptor);
+            var trails = PrefabulousUtil.GetAllComponentsInChildrenExceptEditorOnly<TrailRenderer>(descriptor);
+            var particleSystems = PrefabulousUtil.GetAllComponentsInChildrenExceptEditorOnly<ParticleSystemRenderer>(descriptor);
 
             var skinnedMeshesMaterials = skinnedMeshes.SelectMany(renderer => renderer.sharedMaterials).Where(material => material != null).ToArray();
             var meshesMaterials = meshes.SelectMany(renderer => renderer.sharedMaterials).Where(material => material != null).ToArray();
@@ -105,23 +106,6 @@ namespace VRC.Editor
             }
 
             _materialToComponent[materialNullable].Add(renderer);
-        }
-
-        private T[] GetAllComponentsInChildrenExceptEditorOnly<T>(VRCAvatarDescriptor descriptor) where T : Component
-        {
-            return ExcludeEditorOnly(descriptor.GetComponentsInChildren<T>(true));
-        }
-
-        private T[] ExcludeEditorOnly<T>(T[] comps) where T : Component
-        {
-            return comps.Where(comp => !IsInEditorOnly(comp.transform)).ToArray();
-        }
-
-        private bool IsInEditorOnly(Transform t)
-        {
-            if (t.CompareTag("EditorOnly")) return true;
-            var parent = t.parent;
-            return parent != null && IsInEditorOnly(parent);
         }
 
         public override void OnInspectorGUI()
