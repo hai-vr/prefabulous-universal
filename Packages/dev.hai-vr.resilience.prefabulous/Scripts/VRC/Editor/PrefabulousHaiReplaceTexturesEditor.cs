@@ -126,7 +126,7 @@ namespace VRC.Editor
             var replacementsProperty = serializedObject.FindProperty(nameof(PrefabulousHaiReplaceTextures.replacements));
             EditorGUILayout.PropertyField(replacementsProperty, new GUIContent("Replacements"));
             
-            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiReplaceTextures.executeInPlayMode)), new GUIContent("(DANGER) Execute in Play Mode"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiReplaceTextures.executeInPlayMode)), new GUIContent("Execute in Play Mode"));
             EditorGUILayout.HelpBox(@"If you choose to execute Replace Textures in Play Mode, it can be tremendously confusing for your workflow as you will no longer be able to edit the materials of your avatar while in Play Mode.
 
 For this reason, it is NOT recommended to execute this component in Play Mode. Replace Textures will always be executed when building your avatar for upload, or when baking your avatar.", MessageType.Warning);

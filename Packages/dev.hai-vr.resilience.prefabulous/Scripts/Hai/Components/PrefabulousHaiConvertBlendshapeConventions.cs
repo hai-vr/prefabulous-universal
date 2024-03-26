@@ -12,13 +12,13 @@ namespace Prefabulous.Hai.Runtime
         public SkinnedMeshRenderer[] renderers;
 
         [TextArea]
-        public string keyValueStore;
+        public string keyValueMapping;
         public string keyValueSeparator = "=";
         public bool reverse;
 
         public Dictionary<string, string> ParseMapping()
         {
-            var store = keyValueStore ?? "";
+            var store = keyValueMapping ?? "";
 
             var mapping = new Dictionary<string, string>();
             var lines = store.Split("\n").Where(s => !string.IsNullOrWhiteSpace(s));

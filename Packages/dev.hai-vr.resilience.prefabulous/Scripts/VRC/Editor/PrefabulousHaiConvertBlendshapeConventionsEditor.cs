@@ -30,7 +30,7 @@ namespace VRC.Editor
                 EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiConvertBlendshapeConventions.renderers)));
             }
             
-            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiConvertBlendshapeConventions.keyValueStore)));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiConvertBlendshapeConventions.keyValueMapping)));
             EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousHaiConvertBlendshapeConventions.keyValueSeparator)));
             if (GUILayout.Button(UseTabAsSeparatorLabel))
             {
