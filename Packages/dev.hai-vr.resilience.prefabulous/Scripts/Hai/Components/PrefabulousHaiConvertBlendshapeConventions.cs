@@ -21,7 +21,7 @@ namespace Prefabulous.Hai.Runtime
             var store = keyValueMapping ?? "";
 
             var mapping = new Dictionary<string, string>();
-            var lines = store.Split("\n").Where(s => !string.IsNullOrWhiteSpace(s));
+            var lines = store.Split('\n').Where(s => !string.IsNullOrWhiteSpace(s));
             foreach (var keyValue in lines)
             {
                 var equalSplit = keyValue.Split(keyValueSeparator);
