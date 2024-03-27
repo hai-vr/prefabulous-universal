@@ -1,5 +1,4 @@
 ﻿using AnimatorAsCode.V1;
-using AnimatorAsCode.V1.NDMFProcessor;
 using JetBrains.Annotations;
 using nadena.dev.ndmf;
 using UnityEditor;
@@ -56,15 +55,14 @@ namespace Prefabulous.VRC.Editor
 
                         Execute();
                     }
-                    
+
                     PrefabulousUtil.DestroyAllAfterBake<T>(ctx);
 
                     // Get rid of the short-lived sugar fields
                     aac = null;
                     my = null;
                     context = null;
-                })
-                .BeforePlugin((NdmfAacDBTPlugin)NdmfAacDBTPlugin.Instance);
+                });
         }
     }
 

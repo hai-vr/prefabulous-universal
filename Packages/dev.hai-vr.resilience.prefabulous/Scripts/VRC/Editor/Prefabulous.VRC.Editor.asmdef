@@ -1,7 +1,6 @@
 {
     "name": "Prefabulous.VRC.Editor",
     "references": [
-        "AnimatorAsCode.V1.NDMFProcessor",
         "AnimatorAsCode.V1.ModularAvatar",
         "AnimatorAsCode.V1.VRChat",
         "AnimatorAsCode.V1",

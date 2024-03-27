@@ -1,5 +1,4 @@
 ﻿using AnimatorAsCode.V1.ModularAvatar;
-using AnimatorAsCode.V1.NDMFProcessor;
 using nadena.dev.ndmf;
 using Prefabulous.VRC.Editor;
 using Prefabulous.VRC.Runtime;
