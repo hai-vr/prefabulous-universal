@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using nadena.dev.ndmf;
 using Prefabulous.VRC.Runtime;
@@ -47,6 +48,12 @@ namespace Prefabulous.VRC.Editor
                 default:
                     throw new ArgumentOutOfRangeException(nameof(parameterValueType), parameterValueType, null);
             }
+        }
+
+        public void RemapParameters(ref ImmutableDictionary<(ParameterNamespace, string), ParameterMapping> nameMap,
+            BuildContext context = null)
+        {
+            // Compat with Unity 2019
         }
     }
 }
