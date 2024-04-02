@@ -48,7 +48,7 @@ namespace Prefabulous.VRC.Editor
             var visited = new HashSet<Material>();
             var materialNeedsChanging = new Dictionary<Material, Material>();
             
-            var smrs = ctx.AvatarRootTransform.GetComponentsInChildren<SkinnedMeshRenderer>();
+            var smrs = ctx.AvatarRootTransform.GetComponentsInChildren<SkinnedMeshRenderer>(true);
             foreach (var smr in smrs)
             {
                 if (VisitMaterials(smr.sharedMaterials, substitutions, visited, materialNeedsChanging))
@@ -58,7 +58,7 @@ namespace Prefabulous.VRC.Editor
                 }
             }
             
-            var mrs = ctx.AvatarRootTransform.GetComponentsInChildren<MeshRenderer>();
+            var mrs = ctx.AvatarRootTransform.GetComponentsInChildren<MeshRenderer>(true);
             foreach (var mr in mrs)
             {
                 if (VisitMaterials(mr.sharedMaterials, substitutions, visited, materialNeedsChanging))
@@ -67,7 +67,7 @@ namespace Prefabulous.VRC.Editor
                 }
             }
             
-            var trs = ctx.AvatarRootTransform.GetComponentsInChildren<TrailRenderer>();
+            var trs = ctx.AvatarRootTransform.GetComponentsInChildren<TrailRenderer>(true);
             foreach (var tr in trs)
             {
                 if (VisitMaterials(tr.sharedMaterials, substitutions, visited, materialNeedsChanging))
@@ -76,7 +76,7 @@ namespace Prefabulous.VRC.Editor
                 }
             }
             
-            var psrs = ctx.AvatarRootTransform.GetComponentsInChildren<ParticleSystemRenderer>();
+            var psrs = ctx.AvatarRootTransform.GetComponentsInChildren<ParticleSystemRenderer>(true);
             foreach (var psr in psrs)
             {
                 if (VisitMaterials(psr.sharedMaterials, substitutions, visited, materialNeedsChanging))
