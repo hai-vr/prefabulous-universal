@@ -1,0 +1,20 @@
+{
+    "name": "Prefabulous.Native.Shared.Editor",
+    "references": [
+        "nadena.dev.ndmf",
+        "Prefabulous.Native.Common.Runtime",
+        "VRC.SDK3A"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

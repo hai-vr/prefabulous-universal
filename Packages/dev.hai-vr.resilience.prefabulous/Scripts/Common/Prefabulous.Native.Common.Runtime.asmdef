@@ -1,0 +1,15 @@
+{
+    "name": "Prefabulous.Native.Common.Runtime",
+    "references": [
+        "Prefabulous.Native.Shared.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

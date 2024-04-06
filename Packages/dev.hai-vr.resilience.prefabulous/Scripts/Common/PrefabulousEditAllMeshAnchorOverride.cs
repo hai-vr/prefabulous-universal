@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
-using VRC.SDKBase;
+#if VRC_SDK_VRCSDK3
+using IPrefabulousEditorOnly = VRC.SDKBase.IEditorOnly;
+#else
+using Prefabulous.Native.Shared.Runtime;
+#endif
 
-namespace Prefabulous.VRC.Runtime
+namespace Prefabulous.Native.Common.Runtime
 {
-    [AddComponentMenu("Prefabulous Avatar/PA Edit All Mesh Anchor Override")]
-    public class PrefabulousEditAllMeshAnchorOverride : MonoBehaviour, IEditorOnly
+    [AddComponentMenu("Prefabulous/PA Edit All Mesh Anchor Override")]
+    public class PrefabulousEditAllMeshAnchorOverride : MonoBehaviour, IPrefabulousEditorOnly
     {
         public Transform anchorOverride;
     }

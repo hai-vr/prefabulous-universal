@@ -1,0 +1,48 @@
+﻿using UnityEngine;
+#if VRC_SDK_VRCSDK3
+using IPrefabulousEditorOnly = VRC.SDKBase.IEditorOnly;
+#else
+using Prefabulous.Native.Shared.Runtime;
+#endif
+
+namespace Prefabulous.Native.Common.Runtime
+{
+    [AddComponentMenu("Prefabulous/PA Assign UV Tile")]
+    public class PrefabulousAssignUVTile : MonoBehaviour, IPrefabulousEditorOnly
+    {
+        public AssignMode mode;
+        
+        // BlendShape method
+        public string[] blendShapes;
+        public bool limitToSpecificMeshes;
+        public SkinnedMeshRenderer[] renderers;
+        
+        public bool keepPartialPolygons;
+        
+        // Mesh method
+        public Renderer[] entireMeshes;
+        
+        // Common
+        public UVChannel uvChannel = UVChannel.UV1;
+        public int u;
+        public int v;
+        
+        public ExistingData existingData;
+        
+        public enum UVChannel {
+            UV0, UV1, UV2, UV3
+        }
+        
+        public enum ExistingData {
+            DoNotClear,
+            SetToMinusOne,
+            SetToZero,
+            Shift,
+        }
+        
+        public enum AssignMode {
+            BlendShapes,
+            EntireMesh
+        }
+    }
+}
