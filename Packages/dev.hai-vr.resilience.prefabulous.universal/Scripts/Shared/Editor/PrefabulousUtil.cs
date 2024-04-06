@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Prefabulous.Native.Shared.Editor
+namespace Prefabulous.Universal.Shared.Editor
 {
     public static class PrefabulousUtil
     {

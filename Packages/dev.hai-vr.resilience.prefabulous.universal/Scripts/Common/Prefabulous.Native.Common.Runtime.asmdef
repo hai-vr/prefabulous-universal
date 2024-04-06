@@ -1,7 +1,7 @@
 {
-    "name": "Prefabulous.Native.Common.Runtime",
+    "name": "Prefabulous.Universal.Common.Runtime",
     "references": [
-        "Prefabulous.Native.Shared.Runtime"
+        "Prefabulous.Universal.Shared.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

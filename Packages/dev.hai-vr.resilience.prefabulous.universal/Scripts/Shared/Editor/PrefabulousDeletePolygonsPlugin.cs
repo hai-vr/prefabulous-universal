@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using nadena.dev.ndmf;
-using Prefabulous.Native.Common.Runtime;
-using Prefabulous.Native.Shared.Editor;
+using Prefabulous.Universal.Common.Runtime;
+using Prefabulous.Universal.Shared.Editor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 [assembly: ExportsPlugin(typeof(PrefabulousDeletePolygonsPlugin))]
-namespace Prefabulous.Native.Shared.Editor
+namespace Prefabulous.Universal.Shared.Editor
 {
     public class PrefabulousDeletePolygonsPlugin : Plugin<PrefabulousDeletePolygonsPlugin>
     {

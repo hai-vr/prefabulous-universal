@@ -4,10 +4,10 @@ using UnityEngine;
 #if VRC_SDK_VRCSDK3
 using IPrefabulousEditorOnly = VRC.SDKBase.IEditorOnly;
 #else
-using Prefabulous.Native.Shared.Runtime;
+using Prefabulous.Universal.Shared.Runtime;
 #endif
 
-namespace Prefabulous.Native.Common.Runtime
+namespace Prefabulous.Universal.Common.Runtime
 {
     [AddComponentMenu("Prefabulous/PA Convert Blendshape Conventions")]
     public class PrefabulousConvertBlendshapeConventions : MonoBehaviour, IPrefabulousEditorOnly

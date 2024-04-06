@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace Prefabulous.Native.Shared.Runtime
+namespace Prefabulous.Universal.Shared.Runtime
 {
     [PublicAPI]
     public interface IPrefabulousEditorOnly

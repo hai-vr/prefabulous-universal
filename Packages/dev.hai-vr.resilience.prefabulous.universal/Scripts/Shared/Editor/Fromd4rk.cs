@@ -27,7 +27,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace Prefabulous.Native.Shared.Editor
+namespace Prefabulous.Universal.Shared.Editor
 {
     internal static class Fromd4rk {
         public static void SetMeshIndexFormat(Mesh mesh, int newVertexCount)

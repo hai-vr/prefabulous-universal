@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  packageName: "dev.hai-vr.resilience.prefabulous.native"
+  packageName: "dev.hai-vr.resilience.prefabulous.universal"
 
 permissions:
   contents: write

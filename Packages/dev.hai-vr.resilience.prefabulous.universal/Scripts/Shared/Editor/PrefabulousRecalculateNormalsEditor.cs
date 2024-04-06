@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Prefabulous.Native.Common.Runtime;
+using Prefabulous.Universal.Common.Runtime;
 using UnityEditor;
 using UnityEngine;
 
-namespace Prefabulous.Native.Shared.Editor
+namespace Prefabulous.Universal.Shared.Editor
 {
     [CustomEditor(typeof(PrefabulousRecalculateNormals))]
     public class PrefabulousRecalculateNormalsEditor : UnityEditor.Editor

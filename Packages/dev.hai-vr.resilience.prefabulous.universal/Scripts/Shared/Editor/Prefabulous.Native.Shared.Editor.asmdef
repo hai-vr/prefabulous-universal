@@ -1,8 +1,8 @@
 {
-    "name": "Prefabulous.Native.Shared.Editor",
+    "name": "Prefabulous.Universal.Shared.Editor",
     "references": [
         "nadena.dev.ndmf",
-        "Prefabulous.Native.Common.Runtime",
+        "Prefabulous.Universal.Common.Runtime",
         "VRC.SDK3A"
     ],
     "includePlatforms": [

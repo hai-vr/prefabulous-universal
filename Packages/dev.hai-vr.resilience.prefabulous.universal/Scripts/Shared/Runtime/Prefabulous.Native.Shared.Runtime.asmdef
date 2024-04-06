@@ -1,5 +1,5 @@
 {
-    "name": "Prefabulous.Native.Shared.Runtime",
+    "name": "Prefabulous.Universal.Shared.Runtime",
     "references": [
     ],
     "includePlatforms": [
