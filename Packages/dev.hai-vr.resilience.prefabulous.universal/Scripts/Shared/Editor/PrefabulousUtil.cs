@@ -301,6 +301,8 @@ namespace Prefabulous.Universal.Shared.Editor
             
             var avatarDescriptorNullable = child.GetComponentInParent(_vrcAvatarDescriptorType, true);
             return avatarDescriptorNullable != null ? avatarDescriptorNullable : child.GetComponentInParent<Animator>(true);
+#elif UNITY_2019
+            return child.GetComponentInParent<Animator>();
 #else
             return child.GetComponentInParent<Animator>(true);
 #endif
