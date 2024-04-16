@@ -52,19 +52,22 @@ namespace Prefabulous.Universal.Shared.Editor
                 .ToArray();
         }
 
+        public class InternalOnlyPrefabulousPlatform
+        {
+            public static IInternalOnlyPrefabulousPlatform Platform;
+        }
+
         // FIXME: This is a stub interface to solve a dependency design issue, do not use other than internally
         public interface IInternalOnlyPrefabulousPlatform
         {
-            static IInternalOnlyPrefabulousPlatform Platform;
-            
-            public AnimationClip[] FindAllRelevantAnimationClips(Transform descriptor);
+            AnimationClip[] FindAllRelevantAnimationClips(Transform descriptor);
         }
 
         public static AnimationClip[] FindAllRelevantAnimationClips(Transform descriptor)
         {
-            if (IInternalOnlyPrefabulousPlatform.Platform == null) return Array.Empty<AnimationClip>();
+            if (InternalOnlyPrefabulousPlatform.Platform == null) return Array.Empty<AnimationClip>();
             
-            return IInternalOnlyPrefabulousPlatform.Platform.FindAllRelevantAnimationClips(descriptor);
+            return InternalOnlyPrefabulousPlatform.Platform.FindAllRelevantAnimationClips(descriptor);
         }
 
         public static void BuildBlendshapeStruct(SkinnedMeshRenderer[] smrs, out List<SkinnedMeshRenderer> affected, out List<SkinnedMeshRenderer> notAffected, out Dictionary<SkinnedMeshRenderer, List<string>> smrToBlendshapes, out Dictionary<string, float> blendshapeToMaxval, string[] myBlendShapes, bool doNotHideBodyMesh)
@@ -298,6 +301,8 @@ namespace Prefabulous.Universal.Shared.Editor
             
             var avatarDescriptorNullable = child.GetComponentInParent(_vrcAvatarDescriptorType, true);
             return avatarDescriptorNullable != null ? avatarDescriptorNullable : child.GetComponentInParent<Animator>(true);
+#elif UNITY_2019
+            return child.GetComponentInParent<Animator>();
 #else
             return child.GetComponentInParent<Animator>(true);
 #endif

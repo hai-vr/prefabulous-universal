@@ -1,7 +1,7 @@
 {
   "name": "dev.hai-vr.resilience.prefabulous.universal",
   "displayName": "Haï ~ Prefabulous Universal",
-  "version": "2.0.0-alpha.2",
+  "version": "2.0.0-alpha.4",
   "unity": "2019.4",
   "description": "Prefabulous Universal https://docs.hai-vr.dev/docs/products/prefabulous-avatar/universal",
   "vrchatVersion" : "2022.1.1",
