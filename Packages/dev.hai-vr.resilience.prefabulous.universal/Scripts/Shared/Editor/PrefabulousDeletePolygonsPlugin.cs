@@ -12,6 +12,9 @@ namespace Prefabulous.Universal.Shared.Editor
 {
     public class PrefabulousDeletePolygonsPlugin : Plugin<PrefabulousDeletePolygonsPlugin>
     {
+        public override string QualifiedName => "dev.hai-vr.prefabulous.universal.DeletePolygons";
+        public override string DisplayName => "Prefabulous Universal - Delete Polygons";
+
         protected override void Configure()
         {
             var seq = InPhase(BuildPhase.Optimizing);

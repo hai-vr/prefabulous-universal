@@ -9,6 +9,9 @@ namespace Prefabulous.Universal.Shared.Editor
 {
     public class PrefabulousEditAllMeshBoundsPlugin : Plugin<PrefabulousEditAllMeshBoundsPlugin>
     {
+        public override string QualifiedName => "dev.hai-vr.prefabulous.universal.EditAllMeshBounds";
+        public override string DisplayName => "Prefabulous Universal - Edit All Mesh Bounds";
+
         protected override void Configure()
         {
             InPhase(BuildPhase.Transforming)

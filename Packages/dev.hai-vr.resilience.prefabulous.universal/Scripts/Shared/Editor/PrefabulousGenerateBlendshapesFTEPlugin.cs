@@ -11,6 +11,9 @@ namespace Prefabulous.Universal.Shared.Editor
 {
     public class PrefabulousGenerateBlendshapesFTEPlugin : Plugin<PrefabulousGenerateBlendshapesFTEPlugin>
     {
+        public override string QualifiedName => "dev.hai-vr.prefabulous.universal.GenerateBlendshapesFTE";
+        public override string DisplayName => "Prefabulous Universal - Generate Blendshapes for Face Tracking Extensions";
+
         public const string EyeClosedLeft = "EyeClosedLeft";
         public const string EyeClosedRight = "EyeClosedRight";
         public const string Body = "Body";

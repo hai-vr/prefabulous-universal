@@ -6,11 +6,14 @@ using Prefabulous.Universal.Shared.Editor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-[assembly: ExportsPlugin(typeof(PrefabulousHaiRecalculateNormalsPlugin))]
+[assembly: ExportsPlugin(typeof(PrefabulousRecalculateNormalsPlugin))]
 namespace Prefabulous.Universal.Shared.Editor
 {
-    public class PrefabulousHaiRecalculateNormalsPlugin : Plugin<PrefabulousHaiRecalculateNormalsPlugin>
+    public class PrefabulousRecalculateNormalsPlugin : Plugin<PrefabulousRecalculateNormalsPlugin>
     {
+        public override string QualifiedName => "dev.hai-vr.prefabulous.universal.RecalculateNormals";
+        public override string DisplayName => "Prefabulous Universal - Recalculate Normals";
+        
         protected override void Configure()
         {
             var seq = InPhase(BuildPhase.Transforming)

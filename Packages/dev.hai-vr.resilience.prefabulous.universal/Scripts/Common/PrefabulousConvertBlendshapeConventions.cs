@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 #if VRC_SDK_VRCSDK3
@@ -31,7 +32,7 @@ namespace Prefabulous.Universal.Common.Runtime
             
             var store = keyValueMapping ?? "";
 
-            var lines = store.Split('\n').Where(s => !string.IsNullOrWhiteSpace(s));
+            var lines = store.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None).Where(s => !string.IsNullOrWhiteSpace(s));
             foreach (var keyValue in lines)
             {
                 var equalSplit = keyValue.Split(separator);

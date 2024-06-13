@@ -6,11 +6,14 @@ using Prefabulous.Universal.Shared.Editor;
 using UnityEditor;
 using UnityEngine;
 
-[assembly: ExportsPlugin(typeof(PrefabulousHaiReplaceTexturesPlugin))]
+[assembly: ExportsPlugin(typeof(PrefabulousReplaceTexturesPlugin))]
 namespace Prefabulous.Universal.Shared.Editor
 {
-    public class PrefabulousHaiReplaceTexturesPlugin : Plugin<PrefabulousHaiReplaceTexturesPlugin>
+    public class PrefabulousReplaceTexturesPlugin : Plugin<PrefabulousReplaceTexturesPlugin>
     {
+        public override string QualifiedName => "dev.hai-vr.prefabulous.universal.ReplaceTextures";
+        public override string DisplayName => "Prefabulous Universal - Replace Textures";
+        
         protected override void Configure()
         {
             InPhase(BuildPhase.Optimizing)

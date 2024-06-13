@@ -11,6 +11,9 @@ namespace Prefabulous.Universal.Shared.Editor
 {
     public class PrefabulousAssignUVTilePlugin : Plugin<PrefabulousAssignUVTilePlugin>
     {
+        public override string QualifiedName => "dev.hai-vr.prefabulous.universal.AssignUVTile";
+        public override string DisplayName => "Prefabulous Universal - Assign UV Tile";
+        
         private const float Offset = 0.5f;
 
         protected override void Configure()

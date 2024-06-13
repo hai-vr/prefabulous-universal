@@ -9,6 +9,9 @@ namespace Prefabulous.Universal.Shared.Editor
 {
     public class PrefabulousEditAllMeshAnchorOverridePlugin : Plugin<PrefabulousEditAllMeshAnchorOverridePlugin>
     {
+        public override string QualifiedName => "dev.hai-vr.prefabulous.universal.EditAllMeshAnchorOverride";
+        public override string DisplayName => "Prefabulous Universal - Edit All Mesh Anchor Override";
+        
         protected override void Configure()
         {
             InPhase(BuildPhase.Transforming)

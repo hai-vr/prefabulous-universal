@@ -11,6 +11,9 @@ namespace Prefabulous.Universal.Shared.Editor
 {
     public class PrefabulousConvertBlendshapeConventionsPlugin : Plugin<PrefabulousConvertBlendshapeConventionsPlugin>
     {
+        public override string QualifiedName => "dev.hai-vr.prefabulous.universal.ConvertBlendshapeConventions";
+        public override string DisplayName => "Prefabulous Universal - Convert Blendshape Conventions";
+
         protected override void Configure()
         {
             var seq = InPhase(BuildPhase.Transforming)

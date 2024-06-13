@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Prefabulous.Universal.Shared.Editor
 {
     [CustomEditor(typeof(PrefabulousReplaceTextures))]
-    public class PrefabulousHaiReplaceTexturesEditor : UnityEditor.Editor
+    public class PrefabulousReplaceTexturesEditor : UnityEditor.Editor
     {
         private Texture[] _foundTextures;
         private Texture2D _iconBackground;
