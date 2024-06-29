@@ -10,5 +10,8 @@
   },
   "vpmDependencies": {
   },
-  "url" : "https://docs.hai-vr.dev/docs/products/prefabulous-avatar"
+  "url" : "https://docs.hai-vr.dev/docs/products/prefabulous-avatar",
+  "documentationUrl": "https://docs.hai-vr.dev/docs/products/prefabulous-avatar",
+  "changelogUrl": "https://docs.hai-vr.dev/docs/changelogs/prefabulous",
+  "license": "MIT"
 }
