@@ -43,6 +43,9 @@ namespace Prefabulous.Universal.Shared.Editor
             {
                 foreach (var renderer in assignUVTile.entireMeshes)
                 {
+                    // Caution: "renderer is Type" bypasses Unity object lifetime check
+                    if (renderer == null) continue;
+                    
                     if (renderer is SkinnedMeshRenderer smr)
                     {
                         var originalMesh = smr.sharedMesh;
