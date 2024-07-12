@@ -18,9 +18,10 @@ namespace Prefabulous.Universal.Shared.Editor
         protected override void Configure()
         {
             var seq = InPhase(BuildPhase.Optimizing);
-            
-            seq.Run("Delete Polygons", DeletePolygons)
-                .BeforePlugin("com.anatawa12.avatar-optimizer");
+
+            seq
+                .BeforePlugin("com.anatawa12.avatar-optimizer")
+                .Run("Delete Polygons", DeletePolygons);
         }
 
         private void DeletePolygons(BuildContext context)
