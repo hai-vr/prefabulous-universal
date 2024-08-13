@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-#if VRC_SDK_VRCSDK3
+#if PREFABULOUS_UNIVERSAL_VRCHAT_IS_INSTALLED
 using IPrefabulousEditorOnly = VRC.SDKBase.IEditorOnly;
 #else
 using Prefabulous.Universal.Shared.Runtime;

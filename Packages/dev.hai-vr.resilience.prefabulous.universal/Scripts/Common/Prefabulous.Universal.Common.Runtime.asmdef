@@ -10,6 +10,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.vrchat.avatars",
+            "expression": "",
+            "define": "PREFABULOUS_UNIVERSAL_VRCHAT_IS_INSTALLED"
+        }
+    ],
     "noEngineReferences": false
 }

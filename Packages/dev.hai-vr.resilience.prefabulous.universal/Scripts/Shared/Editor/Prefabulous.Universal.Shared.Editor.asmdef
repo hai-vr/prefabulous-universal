@@ -1,5 +1,6 @@
 {
     "name": "Prefabulous.Universal.Shared.Editor",
+    "rootNamespace": "",
     "references": [
         "nadena.dev.ndmf",
         "Prefabulous.Universal.Common.Runtime",
@@ -11,10 +12,15 @@
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
-    "precompiledReferences": [
-    ],
+    "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.vrchat.avatars",
+            "expression": "",
+            "define": "PREFABULOUS_UNIVERSAL_VRCHAT_IS_INSTALLED"
+        }
+    ],
     "noEngineReferences": false
 }

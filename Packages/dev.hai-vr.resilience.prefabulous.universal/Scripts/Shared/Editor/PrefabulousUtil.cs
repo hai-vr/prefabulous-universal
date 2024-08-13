@@ -292,10 +292,10 @@ namespace Prefabulous.Universal.Shared.Editor
 
         public static Component GetAvatarRootOrNull(Transform child)
         {
-#if VRC_SDK_VRCSDK3
+#if PREFABULOUS_UNIVERSAL_VRCHAT_IS_INSTALLED
             if (_vrcAvatarDescriptorType == null)
             {
-                // This should not return null because we're in VRC_SDK_VRCSDK3 
+                // This should not return null because we're in PREFABULOUS_UNIVERSAL_VRCHAT_IS_INSTALLED 
                 _vrcAvatarDescriptorType = NonCachedReflectiveGetTypeOrNull("VRCAvatarDescriptor");
             }
             

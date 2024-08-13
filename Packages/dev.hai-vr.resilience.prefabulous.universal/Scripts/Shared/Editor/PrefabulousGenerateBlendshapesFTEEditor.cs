@@ -54,7 +54,7 @@ namespace Prefabulous.Universal.Shared.Editor
                     }
                 }
 
-#if VRC_SDK_VRCSDK3
+#if PREFABULOUS_UNIVERSAL_VRCHAT_IS_INSTALLED
                 if (!_fteTypeQueried)
                 {
                     // This may return null
@@ -79,7 +79,7 @@ namespace Prefabulous.Universal.Shared.Editor
                 EditorGUILayout.HelpBox(MsgMissingComponent, MessageType.Warning);
                 if (GUILayout.Button(AddComponentLabel))
                 {
-#if VRC_SDK_VRCSDK3
+#if PREFABULOUS_UNIVERSAL_VRCHAT_IS_INSTALLED
                     Undo.AddComponent(my.gameObject, _fteTypeNullableIfNotInstalled);
 #endif
                 }
