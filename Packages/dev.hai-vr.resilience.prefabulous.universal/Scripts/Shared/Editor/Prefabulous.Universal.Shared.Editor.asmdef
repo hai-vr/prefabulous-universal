@@ -4,7 +4,8 @@
     "references": [
         "nadena.dev.ndmf",
         "Prefabulous.Universal.Common.Runtime",
-        "VRC.SDK3A"
+        "VRC.SDK3A",
+        "VRC.SDK3A.Editor"
     ],
     "includePlatforms": [
         "Editor"
@@ -12,7 +13,9 @@
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
-    "precompiledReferences": [],
+    "precompiledReferences": [
+        "VRCSDK3A.dll"
+    ],
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [
@@ -20,6 +23,11 @@
             "name": "com.vrchat.avatars",
             "expression": "",
             "define": "PREFABULOUS_UNIVERSAL_VRCHAT_IS_INSTALLED"
+        },
+        {
+            "name": "com.vrchat.avatars",
+            "expression": "3.7.0",
+            "define": "PREFABULOUS_UNIVERSAL_VRCHAT_CONSTRAINTS_SUPPORTED"
         }
     ],
     "noEngineReferences": false

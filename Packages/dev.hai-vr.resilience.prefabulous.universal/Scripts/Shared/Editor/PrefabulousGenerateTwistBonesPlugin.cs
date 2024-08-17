@@ -146,11 +146,11 @@ namespace Prefabulous.Universal.Shared.Editor
             var smrs = context.AvatarRootTransform.GetComponentsInChildren<SkinnedMeshRenderer>(true);
             foreach (var tb in tbs)
             {
-                ProcessTwistBone(tb, smrs, excludeBlendshapes);
+                ProcessTwistBone(tb, smrs, excludeBlendshapes, context);
             }
         }
 
-        private static void ProcessTwistBone(TwistBoneDefinition tb, SkinnedMeshRenderer[] smrs, HashSet<string> excludeBlendshapes)
+        private static void ProcessTwistBone(TwistBoneDefinition tb, SkinnedMeshRenderer[] smrs, HashSet<string> excludeBlendshapes, BuildContext ctx)
         {
             var applicableSmrs = smrs
                 .Where(renderer => renderer.sharedMesh != null)
@@ -188,6 +188,10 @@ namespace Prefabulous.Universal.Shared.Editor
                     sourceTransform = tb.tip
                 });
                 aim.constraintActive = true;
+                
+#if PREFABULOUS_UNIVERSAL_VRCHAT_CONSTRAINTS_SUPPORTED
+                VRC.SDK3.Avatars.AvatarDynamicsSetup.DoConvertUnityConstraints(new IConstraint[] { aim }, ctx.AvatarDescriptor, false);
+#endif
             }
 
             // Just in case the user has the same skinned mesh multiple times on the same avatar, process the mesh reference only once.
