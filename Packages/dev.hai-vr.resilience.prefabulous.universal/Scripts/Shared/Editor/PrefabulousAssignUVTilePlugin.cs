@@ -18,7 +18,7 @@ namespace Prefabulous.Universal.Shared.Editor
 
         protected override void Configure()
         {
-            var seq = InPhase(BuildPhase.Optimizing)
+            var seq = InPhase(BuildPhase.Transforming)
                 .AfterPlugin<PrefabulousDeletePolygonsPlugin>()
                 .BeforePlugin("com.anatawa12.avatar-optimizer");
 

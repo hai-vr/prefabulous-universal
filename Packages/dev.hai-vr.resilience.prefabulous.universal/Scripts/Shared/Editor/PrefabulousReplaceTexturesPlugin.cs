@@ -16,7 +16,7 @@ namespace Prefabulous.Universal.Shared.Editor
         
         protected override void Configure()
         {
-            InPhase(BuildPhase.Optimizing)
+            InPhase(BuildPhase.Transforming)
                 .Run("Replace Textures", ReplaceTextures);
         }
 
