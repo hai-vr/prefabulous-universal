@@ -28,6 +28,11 @@
             "name": "com.vrchat.avatars",
             "expression": "3.7.0",
             "define": "PREFABULOUS_UNIVERSAL_VRCHAT_CONSTRAINTS_SUPPORTED"
+        },
+        {
+            "name": "nadena.dev.ndmf",
+            "expression": "1.8.0-alpha.0",
+            "define": "PREFABULOUS_UNIVERSAL_NDMF_CROSSAPP_INTEGRATION_SUPPORTED"
         }
     ],
     "noEngineReferences": false

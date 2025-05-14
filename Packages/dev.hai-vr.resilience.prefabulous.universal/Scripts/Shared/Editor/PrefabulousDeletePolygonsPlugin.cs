@@ -10,6 +10,9 @@ using UnityEngine.Rendering;
 [assembly: ExportsPlugin(typeof(PrefabulousDeletePolygonsPlugin))]
 namespace Prefabulous.Universal.Shared.Editor
 {
+#if PREFABULOUS_UNIVERSAL_NDMF_CROSSAPP_INTEGRATION_SUPPORTED
+    [RunsOnAllPlatforms]
+#endif
     public class PrefabulousDeletePolygonsPlugin : Plugin<PrefabulousDeletePolygonsPlugin>
     {
         public override string QualifiedName => "dev.hai-vr.prefabulous.universal.DeletePolygons";

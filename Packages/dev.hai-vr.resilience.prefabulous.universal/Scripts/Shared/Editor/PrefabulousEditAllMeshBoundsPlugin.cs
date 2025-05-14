@@ -7,6 +7,9 @@ using UnityEngine;
 [assembly: ExportsPlugin(typeof(PrefabulousEditAllMeshBoundsPlugin))]
 namespace Prefabulous.Universal.Shared.Editor
 {
+#if PREFABULOUS_UNIVERSAL_NDMF_CROSSAPP_INTEGRATION_SUPPORTED
+    [RunsOnAllPlatforms]
+#endif
     public class PrefabulousEditAllMeshBoundsPlugin : Plugin<PrefabulousEditAllMeshBoundsPlugin>
     {
         public override string QualifiedName => "dev.hai-vr.prefabulous.universal.EditAllMeshBounds";

@@ -9,6 +9,9 @@ using Object = UnityEngine.Object;
 [assembly: ExportsPlugin(typeof(PrefabulousAssignUVTilePlugin))]
 namespace Prefabulous.Universal.Shared.Editor
 {
+#if PREFABULOUS_UNIVERSAL_NDMF_CROSSAPP_INTEGRATION_SUPPORTED
+    [RunsOnAllPlatforms]
+#endif
     public class PrefabulousAssignUVTilePlugin : Plugin<PrefabulousAssignUVTilePlugin>
     {
         public override string QualifiedName => "dev.hai-vr.prefabulous.universal.AssignUVTile";
