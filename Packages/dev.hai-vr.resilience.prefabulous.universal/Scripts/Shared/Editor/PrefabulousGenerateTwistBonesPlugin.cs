@@ -193,7 +193,13 @@ namespace Prefabulous.Universal.Shared.Editor
                 aim.constraintActive = true;
                 
 #if PREFABULOUS_UNIVERSAL_VRCHAT_CONSTRAINTS_SUPPORTED
-                VRC.SDK3.Avatars.AvatarDynamicsSetup.DoConvertUnityConstraints(new IConstraint[] { aim }, ctx.AvatarDescriptor, false);
+#if PREFABULOUS_UNIVERSAL_NDMF_CROSSAPP_INTEGRATION_SUPPORTED
+                if (ctx.PlatformProvider.QualifiedName == WellKnownPlatforms.VRChatAvatar30) {
+#endif
+                    VRC.SDK3.Avatars.AvatarDynamicsSetup.DoConvertUnityConstraints(new IConstraint[] { aim }, ctx.AvatarDescriptor, false);
+#if PREFABULOUS_UNIVERSAL_NDMF_CROSSAPP_INTEGRATION_SUPPORTED
+                }
+#endif
 #endif
             }
 
