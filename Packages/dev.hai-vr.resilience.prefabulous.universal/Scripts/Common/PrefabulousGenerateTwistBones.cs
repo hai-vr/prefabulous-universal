@@ -8,6 +8,7 @@ using Prefabulous.Universal.Shared.Runtime;
 namespace Prefabulous.Universal.Common.Runtime
 {
     [AddComponentMenu("Prefabulous/PA Generate Twist Bones (Alpha)")]
+    [HelpURL("https://docs.hai-vr.dev/redirect/components/PrefabulousGenerateTwistBones")]
     public class PrefabulousGenerateTwistBones : MonoBehaviour, IPrefabulousEditorOnly
     {
         public string[] excludeBraceletsAndWristwatchesBlendshapes;

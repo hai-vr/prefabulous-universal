@@ -8,6 +8,7 @@ using Prefabulous.Universal.Shared.Runtime;
 namespace Prefabulous.Universal.Common.Runtime
 {
     [AddComponentMenu("Prefabulous/PA Edit All Mesh Anchor Override")]
+    [HelpURL("https://docs.hai-vr.dev/redirect/components/PrefabulousEditAllMeshAnchorOverride")]
     public class PrefabulousEditAllMeshAnchorOverride : MonoBehaviour, IPrefabulousEditorOnly
     {
         public Transform anchorOverride;

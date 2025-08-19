@@ -8,6 +8,7 @@ using Prefabulous.Universal.Shared.Runtime;
 namespace Prefabulous.Universal.Common.Runtime
 {
     [AddComponentMenu("Prefabulous/PA Change Avatar Scale")]
+    [HelpURL("https://docs.hai-vr.dev/redirect/components/PrefabulousChangeAvatarScale")]
     public class PrefabulousChangeAvatarScale : MonoBehaviour, IPrefabulousEditorOnly
     {
         public bool customSourceSize;

@@ -8,6 +8,7 @@ using Prefabulous.Universal.Shared.Runtime;
 namespace Prefabulous.Universal.Common.Runtime
 {
     [AddComponentMenu("Prefabulous/PA Recalculate Normals")]
+    [HelpURL("https://docs.hai-vr.dev/redirect/components/PrefabulousRecalculateNormals")]
     public class PrefabulousRecalculateNormals : MonoBehaviour, IPrefabulousEditorOnly
     {
         public string[] blendShapes;

@@ -8,6 +8,7 @@ using Prefabulous.Universal.Shared.Runtime;
 namespace Prefabulous.Universal.Common.Runtime
 {
     [AddComponentMenu("Prefabulous/PA Assign UV Tile")]
+    [HelpURL("https://docs.hai-vr.dev/redirect/components/PrefabulousAssignUVTile")]
     public class PrefabulousAssignUVTile : MonoBehaviour, IPrefabulousEditorOnly
     {
         public AssignMode mode;

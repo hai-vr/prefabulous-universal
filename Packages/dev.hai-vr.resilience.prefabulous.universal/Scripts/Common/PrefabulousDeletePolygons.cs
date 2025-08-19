@@ -8,6 +8,7 @@ using Prefabulous.Universal.Shared.Runtime;
 namespace Prefabulous.Universal.Common.Runtime
 {
     [AddComponentMenu("Prefabulous/PA Delete Polygons")]
+    [HelpURL("https://docs.hai-vr.dev/redirect/components/PrefabulousDeletePolygons")]
     public class PrefabulousDeletePolygons : MonoBehaviour, IPrefabulousEditorOnly
     {
         public string[] blendShapes;

@@ -13,6 +13,7 @@ namespace Prefabulous.Universal.Common.Runtime
 #else
     [AddComponentMenu("")]
 #endif
+    [HelpURL("https://docs.hai-vr.dev/redirect/components/PrefabulousDeleteObjectsAtLateStage")]
     public class PrefabulousDeleteObjectsAtLateStage : MonoBehaviour, IPrefabulousEditorOnly
     {
         public GameObject[] objects = Array.Empty<GameObject>();

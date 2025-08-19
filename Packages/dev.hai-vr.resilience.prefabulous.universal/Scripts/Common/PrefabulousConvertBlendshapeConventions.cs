@@ -11,6 +11,7 @@ using Prefabulous.Universal.Shared.Runtime;
 namespace Prefabulous.Universal.Common.Runtime
 {
     [AddComponentMenu("Prefabulous/PA Convert Blendshape Conventions")]
+    [HelpURL("https://docs.hai-vr.dev/redirect/components/PrefabulousConvertBlendshapeConventions")]
     public class PrefabulousConvertBlendshapeConventions : MonoBehaviour, IPrefabulousEditorOnly
     {
         public bool limitToSpecificMeshes;

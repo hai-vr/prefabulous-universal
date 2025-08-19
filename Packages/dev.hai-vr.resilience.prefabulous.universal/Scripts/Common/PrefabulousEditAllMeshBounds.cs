@@ -8,6 +8,7 @@ using Prefabulous.Universal.Shared.Runtime;
 namespace Prefabulous.Universal.Common.Runtime
 {
     [AddComponentMenu("Prefabulous/PA Edit All Mesh Bounds")]
+    [HelpURL("https://docs.hai-vr.dev/redirect/components/PrefabulousEditAllMeshBounds")]
     public class PrefabulousEditAllMeshBounds : MonoBehaviour, IPrefabulousEditorOnly
     {
         public Bounds bounds = new Bounds(Vector3.zero, Vector3.one * 2);

@@ -9,6 +9,7 @@ using Prefabulous.Universal.Shared.Runtime;
 namespace Prefabulous.Universal.Common.Runtime
 {
     [AddComponentMenu("Prefabulous/PA Replace Textures")]
+    [HelpURL("https://docs.hai-vr.dev/redirect/components/PrefabulousReplaceTextures")]
     public class PrefabulousReplaceTextures : MonoBehaviour, IPrefabulousEditorOnly
     {
         public bool executeInPlayMode = false;
