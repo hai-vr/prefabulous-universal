@@ -7,16 +7,13 @@ namespace Prefabulous.Universal.Shared.Editor
     [CustomEditor(typeof(PrefabulousGenerateTwistBones))]
     public class PrefabulousGenerateTwistBonesEditor : UnityEditor.Editor
     {
-        private const string OptionsLabel = "Options";
-        private const string BasicTwistBonesLabel = "Basic twist bones";
-        private const string CustomTwistBoneLabel = "Custom Twist Bone";
-        private const string AlphaExperimentalCompatibilityOptionsLabel = "(Alpha: Experimental Compatibility Options)";
-
         private static bool _doNotHideBodyMesh;
         private GUIStyle _red;
 
         public override void OnInspectorGUI()
         {
+            var localize = PrefabulousInit.localize;
+            localize.RefreshIfNecessary();
             if (_red == null)
             {
                 _red = new GUIStyle(EditorStyles.textField);
@@ -25,34 +22,34 @@ namespace Prefabulous.Universal.Shared.Editor
 
             var my = (PrefabulousGenerateTwistBones)target;
             
-            EditorGUILayout.LabelField(BasicTwistBonesLabel, EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.leftElbowJointLowerArm)));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.rightElbowJointLowerArm)));
+            localize.LabelField(Phrases.generate_twist_bones.basic_twist_bones, EditorStyles.boldLabel);
+            localize.PropertyField(Phrases.generate_twist_bones.left_elbow_joint_lower_arm, serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.leftElbowJointLowerArm)));
+            localize.PropertyField(Phrases.generate_twist_bones.right_elbow_joint_lower_arm, serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.rightElbowJointLowerArm)));
             
             EditorGUILayout.Space();
             
-            EditorGUILayout.LabelField(OptionsLabel, EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.weightDistribution)));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.excludeBraceletsAndWristwatchesBlendshapes)));
+            localize.LabelField(Phrases.generate_twist_bones.options, EditorStyles.boldLabel);
+            localize.PropertyField(Phrases.generate_twist_bones.weight_distribution, serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.weightDistribution)));
+            localize.PropertyField(Phrases.generate_twist_bones.exclude_bracelets_and_wristwatches_blendshapes, serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.excludeBraceletsAndWristwatchesBlendshapes)));
             
             EditorGUILayout.Space();
             
-            EditorGUILayout.LabelField(CustomTwistBoneLabel, EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.useCustom)));
+            localize.LabelField(Phrases.generate_twist_bones.custom_twist_bone, EditorStyles.boldLabel);
+            localize.PropertyField(Phrases.generate_twist_bones.use_custom, serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.useCustom)));
             if (my.useCustom)
             {
-                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.upperUpSuggestion)));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.lowerUpSuggestion)));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.upper)));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.lower)));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.tip)));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.isMainArmature)));
+                localize.PropertyField(Phrases.generate_twist_bones.upper_up_suggestion, serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.upperUpSuggestion)));
+                localize.PropertyField(Phrases.generate_twist_bones.lower_up_suggestion, serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.lowerUpSuggestion)));
+                localize.PropertyField(Phrases.generate_twist_bones.upper, serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.upper)));
+                localize.PropertyField(Phrases.generate_twist_bones.lower, serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.lower)));
+                localize.PropertyField(Phrases.generate_twist_bones.tip, serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.tip)));
+                localize.PropertyField(Phrases.generate_twist_bones.is_main_armature, serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.isMainArmature)));
             }
             
             EditorGUILayout.Space();
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(AlphaExperimentalCompatibilityOptionsLabel, EditorStyles.boldLabel);
+            localize.LabelField(Phrases.generate_twist_bones.experimental_compatibility_options, EditorStyles.boldLabel);
             if (GUILayout.Button("?", GUILayout.Width(50)))
             {
                 Application.OpenURL("https://docs.hai-vr.dev/docs/products/prefabulous/universal/generate-twist-bones#experimental-compatibility-options");
@@ -60,13 +57,15 @@ namespace Prefabulous.Universal.Shared.Editor
             EditorGUILayout.EndHorizontal();
             
             EditorGUI.BeginDisabledGroup(my.generateInOptimizingPhase);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.generateBeforeModularAvatarMergeArmature)));
+            localize.PropertyField(Phrases.generate_twist_bones.generate_before_modular_avatar_merge_armature, serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.generateBeforeModularAvatarMergeArmature)));
             EditorGUI.EndDisabledGroup();
             EditorGUI.BeginDisabledGroup(my.generateBeforeModularAvatarMergeArmature);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.generateInOptimizingPhase)));
+            localize.PropertyField(Phrases.generate_twist_bones.generate_in_optimizing_phase, serializedObject.FindProperty(nameof(PrefabulousGenerateTwistBones.generateInOptimizingPhase)));
             EditorGUI.EndDisabledGroup();
 
             serializedObject.ApplyModifiedProperties();
+            
+            PrefabulousInit.LocalizeSelector();
         }
     }
 }

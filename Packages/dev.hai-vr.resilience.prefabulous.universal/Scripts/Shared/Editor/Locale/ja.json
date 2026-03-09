@@ -1,0 +1,45 @@
+﻿{
+    "_meta": {
+        "language": "ja",
+        "name": "日本語",
+        "variant": "Gemini 3",
+        "prompt": "This is a message to the LLM model reading this file. Please open the en.json file in this folder, and reuse the same rules as _meta.prompt from en.json. Do not change the _meta.prompt of this file."
+    },
+    "dev.hai-vr.resilience.prefabulous.universal": {
+        "phrases": {
+            "util": {
+                "add_blendshapes": "BlendShapesを追加",
+                "show_face_blendshapes": "顔のBlendShapesを表示"
+            },
+            "recalculate_normals": {
+                "blendshapes": "BlendShapes",
+                "erase_custom_split_normals": "Custom Split Normalsを消去",
+                "limit_to_specific_meshes": "特定のメッシュに限定",
+                "msg_erase_custom_split_normals_is_enabled": "Erase Custom Split Normalsが有効です。\nこれにより、再計算アルゴリズムが変更されます。この変更により、結果が悪化する可能性があります！\n詳細については、ドキュメントを参照してください。",
+                "open_documentation": "ドキュメントを開く",
+                "renderers": "Renderers"
+            },
+            "generate_twist_bones": {
+                "basic_twist_bones": "基本ツイストボーン",
+                "custom_twist_bone": "カスタムツイストボーン",
+                "exclude_bracelets_and_wristwatches_blendshapes": "ブレスレットと腕時計のBlendShapesを除外",
+                "experimental_compatibility_options": "実験的な互換性オプション",
+                "generate_before_modular_avatar_merge_armature": "Modular Avatar Merge Armatureの前に生成",
+                "generate_in_optimizing_phase": "最適化フェーズで生成",
+                "is_main_armature": "メインArmature",
+                "left_elbow_joint_lower_arm": "左肘関節 Lower Arm",
+                "lower": "Lower",
+                "lower_up_suggestion": "Lower Up Suggestion",
+                "options": "オプション",
+                "right_elbow_joint_lower_arm": "右肘関節 Lower Arm",
+                "tip": "Tip",
+                "upper": "Upper",
+                "upper_up_suggestion": "Upper Up Suggestion",
+                "use_custom": "カスタムを使用",
+                "weight_distribution": "ウェイト配分"
+            }
+        },
+        "enums": {
+        }
+    }
+}

@@ -73,6 +73,8 @@ namespace Prefabulous.Universal.Shared.Editor
 
         public override void OnInspectorGUI()
         {
+            var localize = PrefabulousInit.localize;
+            localize.RefreshIfNecessary();
             if (_red == null)
             {
                 _red = new GUIStyle(EditorStyles.textField);
@@ -84,15 +86,15 @@ namespace Prefabulous.Universal.Shared.Editor
             if (my.blendShapes == null) my.blendShapes = new string[0];
             if (my.renderers == null) my.renderers = new SkinnedMeshRenderer[0];
             
-            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousRecalculateNormals.blendShapes)), new GUIContent("BlendShapes"));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousRecalculateNormals.limitToSpecificMeshes)));
+            localize.PropertyField(Phrases.recalculate_normals.blendshapes, serializedObject.FindProperty(nameof(PrefabulousRecalculateNormals.blendShapes)));
+            localize.PropertyField(Phrases.recalculate_normals.limit_to_specific_meshes, serializedObject.FindProperty(nameof(PrefabulousRecalculateNormals.limitToSpecificMeshes)));
             if (my.limitToSpecificMeshes)
             {
-                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousRecalculateNormals.renderers)));
+                localize.PropertyField(Phrases.recalculate_normals.renderers, serializedObject.FindProperty(nameof(PrefabulousRecalculateNormals.renderers)));
             }
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(PrefabulousRecalculateNormals.eraseCustomSplitNormals)));
+            localize.PropertyField(Phrases.recalculate_normals.erase_custom_split_normals, serializedObject.FindProperty(nameof(PrefabulousRecalculateNormals.eraseCustomSplitNormals)));
             if (GUILayout.Button("?", GUILayout.Width(50)))
             {
                 Application.OpenURL("https://docs.hai-vr.dev/docs/products/prefabulous-avatar/hai-components/recalculate-normals#option-erase-custom-split-normals");
@@ -101,8 +103,8 @@ namespace Prefabulous.Universal.Shared.Editor
             
             if (my.eraseCustomSplitNormals)
             {
-                EditorGUILayout.HelpBox("Erase Custom Split Normals is enabled.\nThis will cause a change in the recalculation algorithm. This change can cause worse results!\nPlease consult the documentation to learn more.", MessageType.Warning);
-                if (GUILayout.Button("Open documentation"))
+                localize.HelpBox(Phrases.recalculate_normals.msg_erase_custom_split_normals_is_enabled, MessageType.Warning);
+                if (localize.Button(Phrases.recalculate_normals.open_documentation))
                 {
                     Application.OpenURL("https://docs.hai-vr.dev/docs/products/prefabulous-avatar/hai-components/recalculate-normals#option-erase-custom-split-normals");
                 }
@@ -134,6 +136,8 @@ namespace Prefabulous.Universal.Shared.Editor
             PrefabulousUtil.ShowAddBlendshapes(serializedObject, my.blendShapes, blendshapeToMaxval, nameof(PrefabulousRecalculateNormals.blendShapes), true, _red, ref _doNotHideBodyMesh);
 
             serializedObject.ApplyModifiedProperties();
+
+            PrefabulousInit.LocalizeSelector();
         }
     }
 }

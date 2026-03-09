@@ -150,12 +150,14 @@ namespace Prefabulous.Universal.Shared.Editor
             Dictionary<string, float> blendshapeToMaxval, string propertyName, bool showHidersAsRed,
             GUIStyle redStyleOptional, ref bool doNotHideBodyMesh)
         {
+            var localize = PrefabulousInit.localize;
+            
             if (!EditorApplication.isPlaying)
             {
                 EditorGUILayout.Space();
-                EditorGUILayout.LabelField("Add BlendShapes", EditorStyles.boldLabel);
+                localize.LabelField(Phrases.util.add_blendshapes, EditorStyles.boldLabel);
 
-                doNotHideBodyMesh = EditorGUILayout.Toggle(new GUIContent("Show face blendShapes"), doNotHideBodyMesh);
+                doNotHideBodyMesh = EditorGUILayout.Toggle(new GUIContent(localize.Text(Phrases.util.show_face_blendshapes)), doNotHideBodyMesh);
 
                 var weightedBlendshapes = blendshapeToMaxval
                     .OrderByDescending(pair => pair.Value)

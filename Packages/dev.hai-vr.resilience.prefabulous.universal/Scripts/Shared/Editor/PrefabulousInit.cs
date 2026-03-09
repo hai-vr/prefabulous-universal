@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using HVR.EF.Loc;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,6 +13,18 @@ namespace Prefabulous.Universal.Shared.Editor
         {
             EditorApplication.delayCall += Next;
         }
+        
+        public static HaiEFLoc localize
+        {
+            get
+            {
+                _localize ??= NewLoc();
+                return _localize;
+            }
+        }
+        private static HaiEFLoc _localize;
+        private static HaiEFLoc NewLoc() => new("dev.hai-vr.resilience.prefabulous.universal", "Packages/dev.hai-vr.resilience.prefabulous.universal/Scripts/Shared/Editor/Locale");
+        public static void LocalizeSelector() => localize.Selector(() => _localize = NewLoc());
 
         private static void Next()
         {
